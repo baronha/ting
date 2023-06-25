@@ -18,11 +18,8 @@ open class TingModule: NSObject {
         DispatchQueue.main.async {
             var preset: SPIndicatorIconPreset?
             
-            
             let options: ToastOptions = ToastOptions(options: toastOption)
-            
-            print("options: ", options)
-            
+                        
             do {
                 preset = try options.preset.onPreset(options)
             } catch {
@@ -39,12 +36,8 @@ open class TingModule: NSObject {
             }
             
             toastView.dismissByDrag = options.shouldDismissByDrag
-            
             toastView.presentSide = options.position.onPosition();
-            
-            
             toastView.present(haptic: options.haptic.onHaptic())
-            
         }
     }
 }

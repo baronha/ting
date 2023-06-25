@@ -37,11 +37,13 @@ struct ToastOptions {
         self.preset = options["preset"] as? ToastPreset ?? .done
         self.shouldDismissByDrag = options["shouldDismissByDrag"] as? Bool ?? true
         self.haptic = options["haptic"] as? ToastHaptic ?? .none
-        self.position = options.value(forKeyPath: "position") as? ToastPosition ?? .top
-        self.duration = options["duration"] as? TimeInterval ?? 1
         
-        print(options.value(forKeyPath: "position"), self.position)
+        self.position = ToastPosition(rawValue: options["position"] as? String ?? "top")!
+        
+        self.preset = ToastPreset(rawValue: options["preset"] as? String ?? "done")!
+        self.haptic = ToastHaptic(rawValue: options["haptic"] as? String ?? "none")!
     }
+    
 }
 
 enum ToastPreset: String {

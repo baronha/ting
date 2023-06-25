@@ -4,6 +4,7 @@
 
 @interface Ting : NSObject <NativeTingSpec>
 #else
+
 #import <React/RCTBridgeModule.h>
 
 @interface Ting : NSObject <RCTBridgeModule>

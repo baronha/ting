@@ -1,4 +1,6 @@
 import { NativeModules, Platform } from 'react-native';
+import type { ToastOptions } from './Type';
+export * from './Type';
 
 const LINKING_ERROR =
   `The package 'ting' doesn't seem to be linked. Make sure: \n\n` +
@@ -24,6 +26,6 @@ const Ting = TingModule
       }
     );
 
-export function multiply(a: number, b: number): Promise<number> {
-  return Ting.multiply(a, b);
+export function toast(options: ToastOptions): void {
+  return Ting.toast(options);
 }

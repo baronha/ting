@@ -1,31 +1,49 @@
-import * as React from 'react';
+import React from 'react';
 
-import { StyleSheet, View, Text } from 'react-native';
-import { multiply } from 'ting';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { toast } from 'ting';
 
 export default function App() {
-  const [result, setResult] = React.useState<number | undefined>();
-
-  React.useEffect(() => {
-    multiply(3, 7).then(setResult);
-  }, []);
+  const showToast = () => {
+    toast({
+      title: 'Hey!',
+      duration: 5,
+      preset: 'error',
+      position: 'bottom',
+    });
+  };
 
   return (
-    <View style={styles.container}>
-      <Text>Result: {result}</Text>
+    <View style={style.container}>
+      <TouchableOpacity
+        activeOpacity={0.9}
+        onPress={showToast}
+        style={style.button}
+      >
+        <Text style={style.label}>Show Toast</Text>
+      </TouchableOpacity>
     </View>
   );
 }
 
-const styles = StyleSheet.create({
+const style = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: '#333',
   },
-  box: {
-    width: 60,
-    height: 60,
-    marginVertical: 20,
+  button: {
+    padding: 12,
+    backgroundColor: '#fff',
+    width: '75%',
+    marginHorizontal: 24,
+    marginVertical: 24,
+    alignItems: 'center',
+  },
+  label: {
+    fontWeight: 'bold',
+    color: '#000',
+    textAlign: 'center',
   },
 });

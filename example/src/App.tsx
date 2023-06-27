@@ -8,8 +8,11 @@ export default function App() {
     toast({
       title: 'Hey!',
       duration: 5,
-      preset: 'error',
-      icon: require('./toast.png'),
+      preset: 'done',
+      icon: {
+        uri: require('./toast.png'),
+        color: '#333333',
+      },
     });
   };
 

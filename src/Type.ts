@@ -10,7 +10,11 @@
 //   margin?: ToastMargin;
 // };
 
-export type Icon = String | number;
+export interface Icon {
+  size?: number;
+  uri?: string | number;
+  color?: string;
+}
 
 export interface ToastOptions {
   title: string;
@@ -32,13 +36,10 @@ export interface ToastOptions {
    * Change the presentation side.
    * @platform ios
    */
-  position?: 'top' | 'bottom';
+  direction?: 'top' | 'bottom';
+
   /**
-   * icon asset (remote url & require)
+   * custom icon
    */
   icon?: Icon;
-  /**
-   * icon size for toast
-   */
-  iconSize?: number;
 }

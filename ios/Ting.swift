@@ -10,26 +10,19 @@ import SPIndicator
 import Foundation
 import UIKit
 
-extension UIImage {
-    convenience init?(rct_imageFromBundleAssetName name: String) {
-        let bundle = Bundle.main
-        if let imagePath = bundle.path(forResource: name, ofType: nil) {
-            self.init(contentsOfFile: imagePath)
-        } else {
-            self.init(named: name)
-        }
-    }
-}
 
 @objc
 open class TingModule: NSObject {
     
-    static func getImage(icon: Any?) -> UIImage? {
-        if let image = UIImage(rct_imageFromBundleAssetName: "toast.png") {
-            return image
-        } else {
-            return nil
+    static func getImage(icon: String) -> UIImage? {
+        if let url = URL.init(string: icon) {
+            if let data = try? Data(contentsOf: url) {
+                if let image = UIImage(data: data) {
+                    return image
+                }
+            }
         }
+        return nil
     }
     
     @objc(toast:)
@@ -40,12 +33,18 @@ open class TingModule: NSObject {
             var options: ToastOptions = ToastOptions(options: toastOption)
             
             // custom icon
-            if let iconFile = toastOption["icon"] {
-                print("iconFile: ", iconFile)
-                if let icon = getImage(icon: iconFile) {
-                    print("icon: ", icon)
-                    options.icon = .init(image: icon, color: .blue)
-                    options.preset = .custom
+            if let icon = toastOption["icon"] as? NSDictionary {
+                let iconColor = Utils.hexStringToColor(icon["color"] as? String)
+                
+                if let iconSize = icon["size"] as? CGFloat {
+                    options.layout = .init(iconSize: iconSize, margins: nil)
+                }
+                
+                if let iconURI = icon["uri"] as? String {
+                    if let icon = getImage(icon: iconURI) {
+                        options.icon = .init(image: icon, color: iconColor)
+                        options.preset = .custom
+                    }
                 }
             }
             
@@ -63,7 +62,7 @@ open class TingModule: NSObject {
             }
             
             
-            if let iconSize = toastOption["iconSize"] as? CGFloat {
+            if let iconSize = options.layout?.iconSize as? CGFloat {
                 toastView.layout.iconSize = .init(width: iconSize, height: iconSize)
             }
             

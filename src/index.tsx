@@ -26,16 +26,16 @@ const Ting = TingModule
       }
     );
 
-const convertIconFile = (icon: Icon): any => {
+const convertIconFile = (icon: Icon['uri']): Icon['uri'] => {
   if (typeof icon === 'number') {
-    return Image.resolveAssetSource(icon);
+    return Image.resolveAssetSource(icon).uri;
   }
   return icon;
 };
 
 export function toast(options: ToastOptions): void {
-  const icon = options?.icon;
-  if (icon) options.icon = convertIconFile(icon);
+  const iconURI = options?.icon?.uri;
+  if (iconURI && options?.icon) options.icon.uri = convertIconFile(iconURI);
 
   return Ting.toast(options);
 }

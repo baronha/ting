@@ -34,12 +34,10 @@ struct ToastOptions {
     init(options: NSDictionary) {
         self.title = options["title"] as? String ?? "Title"
         self.message = options["message"] as? String
-        self.preset = options["preset"] as? ToastPreset ?? .done
+        self.duration = options["duration"] as? TimeInterval
         self.shouldDismissByDrag = options["shouldDismissByDrag"] as? Bool ?? true
-        self.haptic = options["haptic"] as? ToastHaptic ?? .none
         
         self.position = ToastPosition(rawValue: options["position"] as? String ?? "top")!
-        
         self.preset = ToastPreset(rawValue: options["preset"] as? String ?? "done")!
         self.haptic = ToastHaptic(rawValue: options["haptic"] as? String ?? "none")!
     }
@@ -65,7 +63,11 @@ enum ToastPreset: String {
                 throw TingError.invalidSystemName
             }
             
-            return .custom(image.withTintColor(options?.icon?.color ?? .systemBlue, renderingMode: .alwaysOriginal))
+            if let iconColor = options?.icon?.color {
+                return .custom(image.withTintColor(iconColor, renderingMode: .alwaysOriginal))
+            }else{
+                return .custom(image)
+            }
         }
     }
 }
@@ -85,7 +87,7 @@ struct ToastLayout {
 
 struct Icon {
     var image: UIImage? = nil
-    var color: UIColor = .systemGray
+    var color: UIColor? = nil
 }
 
 

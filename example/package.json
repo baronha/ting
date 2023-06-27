@@ -7,7 +7,7 @@
     "ios": "react-native run-ios",
     "start": "react-native start",
     "pods": "pod-install --quiet",
-    "pod": "cd ios/ && RCT_NEW_ARCH_ENABLED=1 bundle exec pod install --verbose"
+    "pod": "cd ios/ && RCT_NEW_ARCH_ENABLED=1 bundle exec pod update --verbose"
   },
   "dependencies": {
     "react": "18.2.0",

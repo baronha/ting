@@ -1291,7 +1291,7 @@ SPEC CHECKSUMS:
   React-perflogger: 684a11499a0589cc42135d6d5cc04d0e4e0e261a
   React-RCTActionSheet: 00b0a4c382a13b834124fa3f541a7d8d1d56efb9
   React-RCTAnimation: 10c24c66fb504f2faa53f4ec0666c4568255cff9
-  React-RCTAppDelegate: 218c0cf5b732e4b3e1b3f60962b4e63cced52bdc
+  React-RCTAppDelegate: e940a7a02566684bef81cd5da7c39538271d97bb
   React-RCTBlob: 10814291c4e8ef09fd2ceca81825eae29ee5a4ec
   React-RCTFabric: 3d9f20d934764b479bcb760c8bcd926b87e6f42c
   React-RCTImage: 2f609dd1c80c4aec8edf2ca235cba476fdd442ec

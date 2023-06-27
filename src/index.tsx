@@ -1,5 +1,5 @@
-import { NativeModules, Platform } from 'react-native';
-import type { ToastOptions } from './Type';
+import { NativeModules, Platform, Image } from 'react-native';
+import type { Icon, ToastOptions } from './Type';
 export * from './Type';
 
 const LINKING_ERROR =
@@ -26,6 +26,16 @@ const Ting = TingModule
       }
     );
 
+const convertIconFile = (icon: Icon): any => {
+  if (typeof icon === 'number') {
+    return Image.resolveAssetSource(icon);
+  }
+  return icon;
+};
+
 export function toast(options: ToastOptions): void {
+  const icon = options?.icon;
+  if (icon) options.icon = convertIconFile(icon);
+
   return Ting.toast(options);
 }

@@ -51,7 +51,7 @@ enum ToastPreset: String {
     case error
     case none
     case custom
-    
+
     func onPreset(_ options: ToastOptions?) throws -> SPIndicatorIconPreset? {
         switch self {
         case .done:
@@ -61,9 +61,10 @@ enum ToastPreset: String {
         case .none:
             return .none
         case .custom:
-            guard let image = UIImage.init( systemName: options?.icon?.name ?? "swift") else {
+            guard let image = options?.icon?.image ?? UIImage.init(named: "swift") else {
                 throw TingError.invalidSystemName
             }
+            
             return .custom(image.withTintColor(options?.icon?.color ?? .systemBlue, renderingMode: .alwaysOriginal))
         }
     }
@@ -77,20 +78,13 @@ struct ToastMargins {
 }
 
 
-struct IconSize {
-    
-    var width: Int
-    var height: Int
-}
 struct ToastLayout {
-    var iconSize: IconSize?
+    var iconSize: CGFloat?
     var margins: ToastMargins?
 }
 
 struct Icon {
-    
-    var name: String? = nil
-    
+    var image: UIImage? = nil
     var color: UIColor = .systemGray
 }
 

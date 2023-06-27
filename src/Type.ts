@@ -1,9 +1,16 @@
-export type ToastLayout = {
-  iconSize?: {
-    width: number;
-    height: number;
-  };
-};
+// export type ToastMargin = {
+//   top?: number;
+//   bottom?: number;
+//   right?: number;
+//   left?: number;
+// };
+
+// export type ToastLayout = {
+//   iconSize?: number;
+//   margin?: ToastMargin;
+// };
+
+export type Icon = String | number;
 
 export interface ToastOptions {
   title: string;
@@ -26,5 +33,12 @@ export interface ToastOptions {
    * @platform ios
    */
   position?: 'top' | 'bottom';
-  layout?: ToastLayout;
+  /**
+   * icon asset (remote url & require)
+   */
+  icon?: Icon;
+  /**
+   * icon size for toast
+   */
+  iconSize?: number;
 }

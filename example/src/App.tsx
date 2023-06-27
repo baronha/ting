@@ -9,6 +9,7 @@ export default function App() {
       title: 'Hey!',
       duration: 5,
       preset: 'error',
+      icon: require('./toast.png'),
     });
   };
 

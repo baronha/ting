@@ -43,3 +43,5 @@ export interface ToastOptions {
    */
   icon?: Icon;
 }
+
+export interface AlertOptions {}

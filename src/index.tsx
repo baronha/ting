@@ -1,5 +1,5 @@
 import { NativeModules, Platform, Image } from 'react-native';
-import type { Icon, ToastOptions } from './Type';
+import type { AlertOptions, Icon, ToastOptions } from './Type';
 export * from './Type';
 
 const LINKING_ERROR =
@@ -38,4 +38,8 @@ export function toast(options: ToastOptions): void {
   if (iconURI && options?.icon) options.icon.uri = convertIconFile(iconURI);
 
   return Ting.toast(options);
+}
+
+export function alert(options: AlertOptions): void {
+  return Ting.alert(options);
 }

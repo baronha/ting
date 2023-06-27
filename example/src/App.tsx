@@ -6,10 +6,13 @@ import { toast } from 'ting';
 export default function App() {
   const showToast = () => {
     toast({
-      title: 'Success!',
-      message: 'Thanh toán thành công',
+      title: 'Xin chào',
+      message: 'Xin chào Việt Nam',
       duration: 5,
       preset: 'none',
+      icon: {
+        uri: require('./vietnam.png'),
+      },
     });
   };
 
@@ -21,6 +24,13 @@ export default function App() {
         style={style.button}
       >
         <Text style={style.label}>Show Toast</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        activeOpacity={0.9}
+        onPress={showToast}
+        style={style.button}
+      >
+        <Text style={style.label}>Show Alert</Text>
       </TouchableOpacity>
     </View>
   );

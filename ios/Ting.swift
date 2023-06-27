@@ -71,4 +71,9 @@ open class TingModule: NSObject {
             toastView.present(haptic: options.haptic.onHaptic())
         }
     }
+    
+    @objc(alert:)
+    public static func alert(toastOption: NSDictionary) -> Void {
+        // handle alert
+    }
 }

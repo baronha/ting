@@ -34,7 +34,7 @@ open class TingModule: NSObject {
             
             // custom icon
             if let icon = toastOption["icon"] as? NSDictionary {
-                let iconColor = Utils.hexStringToColor(icon["color"] as? String)
+                let tintColor = Utils.hexStringToColor(icon["tintColor"] as? String)
                 
                 if let iconSize = icon["size"] as? CGFloat {
                     options.layout = .init(iconSize: iconSize, margins: nil)
@@ -42,7 +42,7 @@ open class TingModule: NSObject {
                 
                 if let iconURI = icon["uri"] as? String {
                     if let icon = getImage(icon: iconURI) {
-                        options.icon = .init(image: icon, color: iconColor)
+                        options.icon = .init(image: icon, color: tintColor)
                         options.preset = .custom
                     }
                 }

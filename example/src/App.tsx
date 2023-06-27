@@ -6,13 +6,10 @@ import { toast } from 'ting';
 export default function App() {
   const showToast = () => {
     toast({
-      title: 'Hey!',
+      title: 'Success!',
+      message: 'Thanh toán thành công',
       duration: 5,
-      preset: 'done',
-      icon: {
-        uri: require('./toast.png'),
-        color: '#333333',
-      },
+      preset: 'none',
     });
   };
 

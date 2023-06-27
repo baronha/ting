@@ -13,7 +13,7 @@
 export interface Icon {
   size?: number;
   uri?: string | number;
-  color?: string;
+  tintColor?: string;
 }
 
 export interface ToastOptions {

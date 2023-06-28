@@ -57,10 +57,17 @@ open class TingModule: NSObject {
             
             let toastView = (preset != nil) ? SPIndicatorView(title: options.title, message: options.message, preset: preset ?? .done):  SPIndicatorView(title: options.title, message: options.message)
             
+            if let titleColor = Utils.hexStringToColor(toastOption["titleColor"] as? String) {
+                toastView.titleLabel?.textColor = titleColor
+            }
+            
+            if let messageColor = Utils.hexStringToColor(toastOption["messageColor"] as? String) {
+                toastView.subtitleLabel?.textColor = messageColor
+            }
+            
             if let duration = options.duration {
                 toastView.duration = duration
             }
-            
             
             if let iconSize = options.layout?.iconSize as? CGFloat {
                 toastView.layout.iconSize = .init(width: iconSize, height: iconSize)
@@ -74,6 +81,8 @@ open class TingModule: NSObject {
     
     @objc(alert:)
     public static func alert(alertOption: NSDictionary) -> Void {
+        DispatchQueue.main.async {
+
         var preset: SPAlertIconPreset?
         
         var options: AlertOptions = AlertOptions(options: alertOption)
@@ -105,27 +114,25 @@ open class TingModule: NSObject {
             message: options.message,
             preset: preset ?? .done)
         
-        
-        if let duration = options.duration {
-            alertView.duration = duration
-        }
-        
-        
-        if let duration = options.duration {
-            alertView.duration = duration
-        }
-        
         alertView.dismissByTap = options.shouldDismissByTap
-        
         alertView.cornerRadius = options.borderRadius
         
+        if let titleColor = Utils.hexStringToColor(alertOption["titleColor"] as? String) {
+            alertView.titleLabel?.textColor = titleColor
+        }
         
+        if let messageColor = Utils.hexStringToColor(alertOption["messageColor"] as? String) {
+            alertView.subtitleLabel?.textColor = messageColor
+        }
+        
+        if let duration = options.duration {
+            alertView.duration = duration
+        }
         
         if let iconSize = options.layout?.iconSize as? CGFloat {
             alertView.layout.iconSize = .init(width: iconSize, height: iconSize)
         }
         
-        DispatchQueue.main.async {
             alertView.present(
                 haptic: options.haptic.toSPAlertHaptic())
         }

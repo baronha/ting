@@ -19,6 +19,8 @@ export interface Icon {
 export interface ToastOptions {
   title: string;
   message?: string;
+  titleColor?: string;
+  messageColor?: string;
   /**
    * Defaults to `done`.
    */
@@ -47,6 +49,8 @@ export interface ToastOptions {
 export interface AlertOptions {
   title: string;
   message?: string;
+  titleColor?: string;
+  messageColor?: string;
   /**
    * Defaults to `done`.
    */

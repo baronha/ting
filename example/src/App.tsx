@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { toast } from 'ting';
+import { alert, toast } from 'ting';
 
 export default function App() {
   const showToast = () => {
@@ -12,6 +12,18 @@ export default function App() {
       preset: 'none',
       icon: {
         uri: require('./vietnam.png'),
+      },
+    });
+  };
+
+  const showAlert = () => {
+    alert({
+      title: '50 nghìn',
+      message: 'Thanh toán thành công',
+      duration: 5,
+      preset: 'none',
+      icon: {
+        uri: require('./dong.png'),
       },
     });
   };
@@ -27,7 +39,7 @@ export default function App() {
       </TouchableOpacity>
       <TouchableOpacity
         activeOpacity={0.9}
-        onPress={showToast}
+        onPress={showAlert}
         style={style.button}
       >
         <Text style={style.label}>Show Alert</Text>

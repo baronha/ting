@@ -7,6 +7,7 @@
 
 import UIKit
 import SPIndicator
+import SPAlert
 
 enum TingError: Error {
     case invalidSystemName
@@ -49,7 +50,7 @@ enum ToastPreset: String {
     case error
     case none
     case custom
-
+    
     func onPreset(_ options: ToastOptions?) throws -> SPIndicatorIconPreset? {
         switch self {
         case .done:
@@ -122,5 +123,92 @@ enum ToastPosition: String, CaseIterable {
         case .bottom:
             return .bottom
         }
+    }
+}
+
+enum AlertPreset: String, CaseIterable {
+    case done
+    case error
+    case heart
+    case spinner
+    case custom
+    
+    func onPreset(_ options: AlertOptions?) throws -> SPAlertIconPreset {
+        switch self {
+        case .done:
+            return .done
+        case .error:
+            return .error
+        case .heart:
+            return .heart
+        case .spinner:
+            return .spinner
+        case .custom:
+            guard let image = options?.icon?.image ?? UIImage.init(named: "swift") else {
+                throw TingError.invalidSystemName
+            }
+            
+            if let iconColor = options?.icon?.color {
+                return .custom(image.withTintColor(iconColor, renderingMode: .alwaysOriginal))
+            }else{
+                return .custom(image)
+            }
+        }
+    }
+}
+
+
+enum AlertHaptic: String, CaseIterable {
+    case success
+    case warning
+    case error
+    case none
+    
+    func toSPAlertHaptic() -> SPAlertHaptic {
+        switch self {
+        case .success:
+            return .success
+        case .warning:
+            return .warning
+        case .error:
+            return .error
+        case .none:
+            return .none
+        }
+    }
+}
+
+struct AlertLayout {
+    var iconSize: CGFloat?
+}
+
+struct AlertOptions {
+    var title: String = ""
+    
+    var message: String?
+    
+    var preset: AlertPreset = AlertPreset.done
+    
+    var duration: TimeInterval?
+    
+    var shouldDismissByTap: Bool = true
+    
+    var haptic: AlertHaptic = .none
+    
+    var layout: AlertLayout?
+    
+    var icon: Icon? = nil
+    
+    var borderRadius: CGFloat = 24
+    
+    
+    init(options: NSDictionary) {
+        self.title = options["title"] as? String ?? "Title"
+        self.message = options["message"] as? String
+        self.duration = options["duration"] as? TimeInterval
+        self.shouldDismissByTap = options["shouldDismissByTap"] as? Bool ?? true
+        self.borderRadius = options["borderRadius"] as? CGFloat ?? 24
+        
+        self.haptic = AlertHaptic(rawValue: options["haptic"] as? String ?? "none")!
     }
 }

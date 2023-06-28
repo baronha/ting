@@ -9,7 +9,7 @@ import Foundation
 import SPIndicator
 import Foundation
 import UIKit
-
+import SPAlert
 
 @objc
 open class TingModule: NSObject {
@@ -73,7 +73,61 @@ open class TingModule: NSObject {
     }
     
     @objc(alert:)
-    public static func alert(toastOption: NSDictionary) -> Void {
-        // handle alert
+    public static func alert(alertOption: NSDictionary) -> Void {
+        var preset: SPAlertIconPreset?
+        
+        var options: AlertOptions = AlertOptions(options: alertOption)
+        
+        // custom icon
+        if let icon = alertOption["icon"] as? NSDictionary {
+            let tintColor = Utils.hexStringToColor(icon["tintColor"] as? String)
+            
+            if let iconSize = icon["size"] as? CGFloat {
+                options.layout = .init(iconSize: iconSize)
+            }
+            
+            if let iconURI = icon["uri"] as? String {
+                if let icon = getImage(icon: iconURI) {
+                    options.icon = .init(image: icon, color: tintColor)
+                    options.preset = .custom
+                }
+            }
+        }
+        
+        do {
+            preset = try options.preset.onPreset(options)
+        } catch {
+            print("Ting Toast error: \(error)")
+        }
+        
+        let alertView = SPAlertView(
+            title: options.title,
+            message: options.message,
+            preset: preset ?? .done)
+        
+        
+        if let duration = options.duration {
+            alertView.duration = duration
+        }
+        
+        
+        if let duration = options.duration {
+            alertView.duration = duration
+        }
+        
+        alertView.dismissByTap = options.shouldDismissByTap
+        
+        alertView.cornerRadius = options.borderRadius
+        
+        
+        
+        if let iconSize = options.layout?.iconSize as? CGFloat {
+            alertView.layout.iconSize = .init(width: iconSize, height: iconSize)
+        }
+        
+        DispatchQueue.main.async {
+            alertView.present(
+                haptic: options.haptic.toSPAlertHaptic())
+        }
     }
 }

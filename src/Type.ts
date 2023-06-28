@@ -36,7 +36,7 @@ export interface ToastOptions {
    * Change the presentation side.
    * @platform ios
    */
-  direction?: 'top' | 'bottom';
+  position?: 'top' | 'bottom';
 
   /**
    * custom icon
@@ -44,4 +44,27 @@ export interface ToastOptions {
   icon?: Icon;
 }
 
-export interface AlertOptions {}
+export interface AlertOptions {
+  title: string;
+  message?: string;
+  /**
+   * Defaults to `done`.
+   */
+  preset?: 'done' | 'error' | 'none' | 'spinner';
+  /**
+   * Duration in seconds.
+   */
+  duration?: number;
+  haptic?: 'success' | 'warning' | 'error' | 'none';
+  /**
+   * Defaults to `true`.
+   */
+  shouldDismissByTap?: boolean;
+
+  borderRadius?: number;
+
+  /**
+   * custom icon
+   */
+  icon?: Icon;
+}

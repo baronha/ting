@@ -1,11 +1,20 @@
 package com.ting
 
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.Animatable
+import android.graphics.drawable.AnimatedVectorDrawable
+import android.view.Gravity
+import android.view.LayoutInflater
+import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactMethod
 import com.facebook.react.bridge.ReadableMap
+import com.facebook.react.bridge.UiThreadUtil.runOnUiThread
 import com.hjq.window.EasyWindow
+
 
 class TingModule internal constructor(context: ReactApplicationContext) :
   TingSpec(context) {
@@ -15,35 +24,53 @@ class TingModule internal constructor(context: ReactApplicationContext) :
 
   @ReactMethod
   override fun toast(options: ReadableMap) {
+
     val activity = currentActivity
+    val inflater = LayoutInflater.from(context)
+
+    val container = inflater.inflate(
+      R.layout.toast, null
+    ) as LinearLayout
+
+//    val containerView: LinearLayout = container.findViewById(R.id.toast)
+    val messageView: TextView = container.findViewById(R.id.message)
+    val titleView: TextView = container.findViewById(R.id.title)
+//    val icon: ImageView = container.findViewById(R.id.icon)
+
+    val title = options?.getString("title")
+    val message = options?.getString("message")
+    val preset = options?.getString("preset")
+
+    titleView.text = title
+    messageView.text = message
+//    icon.setImageResource()
 
 
-    EasyWindow<EasyWindow<*>>(activity).apply {
-      setContentView(R.layout.toast)
-      // 设置成可拖拽的
-      //setDraggable()
-      // 设置显示时长
-      setDuration(1000)
-      // 设置动画样式
-      //setAnimStyle(android.R.style.Animation_Translucent)
-      // 设置外层是否能被触摸
-      //setOutsideTouchable(false)
-      // 设置窗口背景阴影强度
-      //setBackgroundDimAmount(0.5f)
-//      setImageDrawable(android.R.id.icon, R.mipmap.ic_dialog_tip_finish)
-      setText(android.R.id.message, "点我消失")
-      setOnClickListener(android.R.id.message, EasyWindow.OnClickListener<TextView?> { toast: EasyWindow<*>, _: TextView? ->
-        // 点击这个 View 后消失
-        toast.cancel()
-        // 跳转到某个Activity
-        // toast.startActivity(intent);
-      })
-    }.show()
+    runOnUiThread {
+      EasyWindow<EasyWindow<*>>(activity)
+//        .setDuration(3000)
+        .setContentView(container)
+        .setAnimStyle(R.style.IOSAnimStyle)
+        .setImageDrawable(R.id.icon, R.drawable.toast_success_ic)
+        .setOutsideTouchable(true)
+        .setYOffset(0)
+        .setBackgroundDimAmount(0.5f)
+        .setOnClickListener(
+          R.id.toast,
+          EasyWindow.OnClickListener<LinearLayout?> { window, view -> window.cancel() })
+        .show()
+    }
+
+//    Handler(Looper.getMainLooper()).post(Runnable {
+//
+//    })
+
+
   }
 
   @ReactMethod
   override fun alert(options: ReadableMap) {
-    TODO("Not yet implemented")
+//
   }
 
   override fun getName(): String {

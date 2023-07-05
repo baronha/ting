@@ -1,48 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:tools="http://schemas.android.com/tools"
+  android:id="@+id/toast"
   android:layout_width="wrap_content"
   android:layout_height="wrap_content"
-  android:layout_gravity="center"
-  android:gravity="center"
-  android:layout_margin="100dp"
-  android:minWidth="120dp"
-  android:minHeight="120dp"
-  android:orientation="vertical">
+  android:background="@drawable/background"
+  android:gravity="center_vertical"
+  android:orientation="horizontal"
+  android:paddingHorizontal="12dp">
 
   <ImageView
-    android:id="@android:id/icon"
-    android:layout_width="65dp"
-    android:layout_height="65dp"
-    android:layout_marginTop="14dp" />
+    android:id="@+id/icon"
+    android:layout_width="32dp"
+    android:layout_height="32dp"
+    android:src="@drawable/toast_success_ic" />
 
   <LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingHorizontal="12dp">
+
     <TextView
-      android:id="@android:id/title"
+      android:id="@+id/title"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_marginLeft="15dp"
-      android:layout_marginTop="8dp"
-      android:layout_marginRight="15dp"
-      android:layout_marginBottom="14dp"
-      android:maxLines="3"
-      android:textColor="#ffffff"
-      android:textSize="14sp"
-      tools:text="提示语" />
+      android:maxLines="1"
+      android:textAlignment="center"
+      android:textColor="#000"
+      android:textFontWeight="700"
+      android:textSize="16sp"
+      tools:text="title" />
+
     <TextView
-      android:id="@android:id/message"
+      android:id="@+id/message"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_marginLeft="15dp"
-      android:layout_marginTop="8dp"
-      android:layout_marginRight="15dp"
-      android:layout_marginBottom="14dp"
-      android:maxLines="3"
-      android:textColor="#ffffff"
-      android:textSize="14sp"
-      tools:text="提示语" />
+      android:lineSpacingExtra="5dp"
+      android:textSize="15sp"
+      tools:text="message" />
   </LinearLayout>
 
 </LinearLayout>

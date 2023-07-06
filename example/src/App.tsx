@@ -9,7 +9,7 @@ export default function App() {
       title: 'Xin chào',
       message: 'Xin chào Việt Nam',
       duration: 5,
-      preset: 'none',
+      preset: 'done',
       icon: {
         uri: require('./vietnam.png'),
       },

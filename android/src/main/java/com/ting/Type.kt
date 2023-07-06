@@ -1,6 +1,7 @@
 package com.ting
 
-public enum class Preset {
+enum class Preset {
   Done,
-  Error
+  Error,
+  None
 }

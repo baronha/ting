@@ -4,23 +4,26 @@
   android:id="@+id/toast"
   android:layout_width="wrap_content"
   android:layout_height="wrap_content"
+  android:layout_centerInParent="true"
+  android:layout_centerHorizontal="true"
   android:background="@drawable/background"
-  android:gravity="center_vertical"
-  android:orientation="horizontal"
-  android:paddingHorizontal="12dp">
+  android:gravity="center"
+  android:orientation="horizontal">
 
   <ImageView
     android:id="@+id/icon"
     android:layout_width="32dp"
     android:layout_height="32dp"
-    android:src="@drawable/toast_success_ic" />
+    android:layout_marginLeft="12dp"
+    android:src="@drawable/animated_check" />
 
   <LinearLayout
+    android:id="@+id/layoutView"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:layout_marginHorizontal="12dip"
     android:gravity="center"
-    android:orientation="vertical"
-    android:paddingHorizontal="12dp">
+    android:orientation="vertical">
 
     <TextView
       android:id="@+id/title"
@@ -37,8 +40,9 @@
       android:id="@+id/message"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:lineSpacingExtra="5dp"
-      android:textSize="15sp"
+      android:maxLines="1"
+      android:textSize="14sp"
+      android:layout_marginTop="2dp"
       tools:text="message" />
   </LinearLayout>
 

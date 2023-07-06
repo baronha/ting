@@ -13,15 +13,13 @@
   <ImageView
     android:id="@+id/icon"
     android:layout_width="32dp"
-    android:layout_height="32dp"
-    android:layout_marginLeft="12dp"
-    android:src="@drawable/animated_check" />
+    android:layout_height="32dp" />
 
   <LinearLayout
     android:id="@+id/layoutView"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="12dip"
+    android:layout_marginHorizontal="12dp"
     android:gravity="center"
     android:orientation="vertical">
 

@@ -7,6 +7,8 @@ import android.graphics.Color
 import android.graphics.drawable.Animatable
 import android.graphics.drawable.AnimatedVectorDrawable
 import android.net.Uri
+import android.os.Handler
+import android.os.Looper
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -18,6 +20,7 @@ import com.facebook.react.bridge.ReactMethod
 import com.facebook.react.bridge.ReadableMap
 import com.facebook.react.bridge.UiThreadUtil.runOnUiThread
 import com.hjq.window.EasyWindow
+import com.hjq.window.draggable.SpringDraggable
 import java.io.IOException
 import java.net.URI
 import java.net.URL
@@ -47,9 +50,22 @@ class TingModule internal constructor(context: ReactApplicationContext) :
 
     val title = options?.getString("title")
     val message = options?.getString("message")
-    val icon = options?.getMap("icon") as ReadableMap
+    val icon = options?.getMap("icon") as? ReadableMap
     val iconURI = icon?.getString("uri")
     val preset = options?.getString("preset")
+    val duration = options?.getInt("duration")
+    val time: Int = if (duration != null) duration * 1000 else 3000
+    var toastAnim = R.style.ToastTopAnim
+    val position: Int = when (options?.getString("position")) {
+      "bottom" -> {
+        toastAnim = R.style.ToastBottomAnim
+        Gravity.BOTTOM
+      }
+
+      else -> {
+        Gravity.TOP
+      }
+    }
 
     //set title
     titleView.text = title
@@ -60,23 +76,15 @@ class TingModule internal constructor(context: ReactApplicationContext) :
     } else {
       messageView.text = message
     }
-
-    println("icon: $icon")
-    println("icon: $iconURI")
-
-
     if (iconURI == null) {
       when (preset) {
         "done" -> {
-          iconView.setImageResource(R.drawable.background)
-//            val animatedVectorDrawable = iconView.drawable as AnimatedVectorDrawable
-//            animatedVectorDrawable.start()
+          loadDoneIcon(iconView)
         }
 
         "error" -> Preset.Error
         "none" -> {
           iconView.visibility = ImageView.GONE
-
         }
 
         else -> null
@@ -85,22 +93,20 @@ class TingModule internal constructor(context: ReactApplicationContext) :
       val bitmap = loadBitmapFromUri(iconURI)
       if (bitmap != null) {
         iconView.setImageBitmap(bitmap)
+      } else {
+        loadDoneIcon(iconView)
       }
     }
 
-
-//    icon.setImageResource()
-
-
     runOnUiThread {
       EasyWindow<EasyWindow<*>>(activity)
-//        .setDuration(3000)
+        .setDuration(time)
         .setContentView(container)
-        .setAnimStyle(R.style.IOSAnimStyle)
-        .setImageDrawable(R.id.icon, R.drawable.toast_success_ic)
+        .setGravity(position)
+        .setYOffset(32)
+        .setDraggable(SpringDraggable(SpringDraggable.ORIENTATION_VERTICAL))
+        .setAnimStyle(toastAnim)
         .setOutsideTouchable(true)
-        .setYOffset(0)
-        .setBackgroundDimAmount(0.5f)
         .setOnClickListener(
           R.id.toast,
           EasyWindow.OnClickListener<LinearLayout?> { window, view -> window.cancel() })
@@ -112,6 +118,15 @@ class TingModule internal constructor(context: ReactApplicationContext) :
 //    })
 
 
+  }
+
+  private fun loadDoneIcon(iconView: ImageView) {
+    iconView.setImageResource(R.drawable.done)
+    val avd = iconView.drawable as AnimatedVectorDrawable
+    val handler = Handler(Looper.getMainLooper())
+    handler.postDelayed({
+      avd.start()
+    }, 250)
   }
 
   @ReactMethod

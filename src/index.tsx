@@ -44,3 +44,7 @@ export function alert(options: AlertOptions): void {
   convertIconFile(options);
   return Ting.alert(options);
 }
+
+export function dismissAlert(): void {
+  return Ting.dismissAlert();
+}

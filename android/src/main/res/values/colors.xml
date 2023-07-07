@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
   <color name="white">#fff</color>
-  <color name="success">#1CA658</color>
+  <color name="done">#1CA658</color>
+  <color name="error">#f74850</color>
 </resources>

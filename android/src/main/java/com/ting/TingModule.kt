@@ -3,15 +3,11 @@ package com.ting
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.Color
-import android.graphics.drawable.Animatable
 import android.graphics.drawable.AnimatedVectorDrawable
-import android.net.Uri
 import android.os.Handler
 import android.os.Looper
 import android.view.Gravity
 import android.view.LayoutInflater
-import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -22,7 +18,6 @@ import com.facebook.react.bridge.UiThreadUtil.runOnUiThread
 import com.hjq.window.EasyWindow
 import com.hjq.window.draggable.SpringDraggable
 import java.io.IOException
-import java.net.URI
 import java.net.URL
 
 
@@ -30,24 +25,23 @@ class TingModule internal constructor(context: ReactApplicationContext) :
   TingSpec(context) {
 
   private var context: Context = context
-
+  private var alertWindow: EasyWindow<EasyWindow<*>>? = null
 
   @ReactMethod
   override fun toast(options: ReadableMap) {
-
-    val activity = currentActivity
+    val easyWindow = EasyWindow<EasyWindow<*>>(currentActivity)
     val inflater = LayoutInflater.from(context)
-
     val container = inflater.inflate(
       R.layout.toast, null
     ) as LinearLayout
 
-//    val containerView: LinearLayout = container.findViewById(R.id.toast)
+    // init view
     val messageView: TextView = container.findViewById(R.id.message)
     val titleView: TextView = container.findViewById(R.id.title)
     val iconView: ImageView = container.findViewById(R.id.icon)
     val layoutView: LinearLayout = container.findViewById(R.id.layoutView)
 
+    // get option from js
     val title = options?.getString("title")
     val message = options?.getString("message")
     val icon = options?.getMap("icon") as? ReadableMap
@@ -82,7 +76,10 @@ class TingModule internal constructor(context: ReactApplicationContext) :
           loadDoneIcon(iconView)
         }
 
-        "error" -> Preset.Error
+        "error" -> {
+          iconView.setImageResource(R.drawable.close)
+        }
+
         "none" -> {
           iconView.visibility = ImageView.GONE
         }
@@ -99,39 +96,35 @@ class TingModule internal constructor(context: ReactApplicationContext) :
     }
 
     runOnUiThread {
-      EasyWindow<EasyWindow<*>>(activity)
-        .setDuration(time)
-        .setContentView(container)
-        .setGravity(position)
-        .setYOffset(32)
-        .setDraggable(SpringDraggable(SpringDraggable.ORIENTATION_VERTICAL))
-        .setAnimStyle(toastAnim)
-        .setOutsideTouchable(true)
-        .setOnClickListener(
+      easyWindow.apply {
+        setDuration(time)
+        contentView = container
+        setGravity(position)
+        setYOffset(48)
+        draggable = SpringDraggable(SpringDraggable.ORIENTATION_VERTICAL)
+        setAnimStyle(toastAnim)
+        setOutsideTouchable(true)
+        setOnClickListener(
           R.id.toast,
-          EasyWindow.OnClickListener<LinearLayout?> { window, view -> window.cancel() })
-        .show()
+          EasyWindow.OnClickListener<LinearLayout> { toast: EasyWindow<*>, _: LinearLayout ->
+            toast.cancel()
+          })
+      }.show()
     }
-
-//    Handler(Looper.getMainLooper()).post(Runnable {
-//
-//    })
-
-
-  }
-
-  private fun loadDoneIcon(iconView: ImageView) {
-    iconView.setImageResource(R.drawable.done)
-    val avd = iconView.drawable as AnimatedVectorDrawable
-    val handler = Handler(Looper.getMainLooper())
-    handler.postDelayed({
-      avd.start()
-    }, 250)
   }
 
   @ReactMethod
   override fun alert(options: ReadableMap) {
 //
+  }
+
+  @ReactMethod
+  override fun dismissAlert() {
+    if (alertWindow != null && alertWindow!!.isShowing) {
+      runOnUiThread {
+        alertWindow!!.cancel()
+      }
+    }
   }
 
   override fun getName(): String {
@@ -141,6 +134,17 @@ class TingModule internal constructor(context: ReactApplicationContext) :
   companion object {
     const val NAME = "Ting"
   }
+
+  private fun loadDoneIcon(iconView: ImageView) {
+    iconView.setImageResource(R.drawable.done)
+    val avd = iconView.drawable as AnimatedVectorDrawable
+    val handler = Handler(Looper.getMainLooper())
+    handler.postDelayed({
+      avd.start()
+    }, 300)
+  }
+
+
 }
 
 fun loadBitmapFromUri(imageUri: String): Bitmap? {

@@ -4,6 +4,7 @@ import { TurboModuleRegistry } from 'react-native';
 export interface Spec extends TurboModule {
   toast(options: Object): void;
   alert(options: Object): void;
+  dismissAlert(): void;
   // alert(options: Object): void;
 }
 

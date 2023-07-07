@@ -10,4 +10,5 @@ abstract class TingSpec internal constructor(context: ReactApplicationContext) :
 
   abstract fun toast(options: ReadableMap)
   abstract fun alert(options: ReadableMap)
+  abstract fun dismissAlert()
 }

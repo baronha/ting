@@ -7,13 +7,14 @@ export default function App() {
   const showToast = () => {
     toast({
       title: 'Xin chào',
-      message: 'Xin chào Việt Nam',
+      message: 'Xin chào Việt Nam nha!',
       duration: 10,
-      // position: 'bottom',
       preset: 'error',
-      // icon: {
-      //   uri: require('./vietnam.png'),
-      // },
+      // position: 'bottom',
+      icon: {
+        uri: require('./vietnam.png'),
+        size: 24,
+      },
     });
   };
 

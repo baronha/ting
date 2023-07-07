@@ -16,7 +16,6 @@ import com.facebook.react.bridge.ReactMethod
 import com.facebook.react.bridge.ReadableMap
 import com.facebook.react.bridge.UiThreadUtil.runOnUiThread
 import com.hjq.window.EasyWindow
-import com.hjq.window.draggable.SpringDraggable
 import java.io.IOException
 import java.net.URL
 
@@ -26,10 +25,10 @@ class TingModule internal constructor(context: ReactApplicationContext) :
 
   private var context: Context = context
   private var alertWindow: EasyWindow<EasyWindow<*>>? = null
+  private val toastWindow = EasyWindow<EasyWindow<*>>(currentActivity)
 
   @ReactMethod
   override fun toast(options: ReadableMap) {
-    val easyWindow = EasyWindow<EasyWindow<*>>(currentActivity)
     val inflater = LayoutInflater.from(context)
     val container = inflater.inflate(
       R.layout.toast, null
@@ -39,13 +38,10 @@ class TingModule internal constructor(context: ReactApplicationContext) :
     val messageView: TextView = container.findViewById(R.id.message)
     val titleView: TextView = container.findViewById(R.id.title)
     val iconView: ImageView = container.findViewById(R.id.icon)
-    val layoutView: LinearLayout = container.findViewById(R.id.layoutView)
 
     // get option from js
     val title = options?.getString("title")
     val message = options?.getString("message")
-    val icon = options?.getMap("icon") as? ReadableMap
-    val iconURI = icon?.getString("uri")
     val preset = options?.getString("preset")
     val duration = options?.getInt("duration")
     val time: Int = if (duration != null) duration * 1000 else 3000
@@ -60,6 +56,11 @@ class TingModule internal constructor(context: ReactApplicationContext) :
         Gravity.TOP
       }
     }
+
+    // icon options
+    val icon = options?.getMap("icon") as? ReadableMap
+    val iconURI = icon?.getString("uri")
+    val iconSize = icon?.getInt("size")
 
     //set title
     titleView.text = title
@@ -77,7 +78,7 @@ class TingModule internal constructor(context: ReactApplicationContext) :
         }
 
         "error" -> {
-          iconView.setImageResource(R.drawable.close)
+          iconView.setImageResource(R.drawable.error)
         }
 
         "none" -> {
@@ -90,23 +91,28 @@ class TingModule internal constructor(context: ReactApplicationContext) :
       val bitmap = loadBitmapFromUri(iconURI)
       if (bitmap != null) {
         iconView.setImageBitmap(bitmap)
+        if (iconSize != null) {
+          iconView.layoutParams.width = iconSize
+          iconView.layoutParams.height = iconSize
+        }
       } else {
         loadDoneIcon(iconView)
       }
     }
 
     runOnUiThread {
-      easyWindow.apply {
+      toastWindow.cancel()
+      toastWindow.apply {
         setDuration(time)
         contentView = container
         setGravity(position)
         setYOffset(48)
-        draggable = SpringDraggable(SpringDraggable.ORIENTATION_VERTICAL)
         setAnimStyle(toastAnim)
         setOutsideTouchable(true)
         setOnClickListener(
           R.id.toast,
-          EasyWindow.OnClickListener<LinearLayout> { toast: EasyWindow<*>, _: LinearLayout ->
+          EasyWindow.OnClickListener { toast: EasyWindow<*>, _: LinearLayout? ->
+            toastWindow.cancel()
             toast.cancel()
           })
       }.show()

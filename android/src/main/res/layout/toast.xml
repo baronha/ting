@@ -31,6 +31,7 @@
       android:textAlignment="center"
       android:textColor="#000"
       android:textFontWeight="700"
+      android:ellipsize="end"
       android:textSize="14sp"
       tools:text="title" />
 
@@ -40,6 +41,7 @@
       android:layout_height="wrap_content"
       android:maxLines="1"
       android:textSize="12sp"
+      android:ellipsize="end"
       android:layout_marginTop="2dp"
       tools:text="message" />
   </LinearLayout>

@@ -13,7 +13,7 @@ export default function App() {
       // position: 'bottom',
       icon: {
         uri: require('./vietnam.png'),
-        size: 24,
+        // size: 12,
       },
     });
   };

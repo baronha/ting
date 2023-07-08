@@ -32,7 +32,7 @@
       android:textColor="#000"
       android:textFontWeight="700"
       android:ellipsize="end"
-      android:textSize="14sp"
+      android:textSize="13sp"
       tools:text="title" />
 
     <TextView

@@ -1,6 +1,7 @@
 package com.ting
 
 import android.content.Context
+import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.drawable.AnimatedVectorDrawable
@@ -18,6 +19,7 @@ import com.facebook.react.bridge.UiThreadUtil.runOnUiThread
 import com.hjq.window.EasyWindow
 import java.io.IOException
 import java.net.URL
+import kotlin.math.roundToInt
 
 
 class TingModule internal constructor(context: ReactApplicationContext) :
@@ -58,9 +60,9 @@ class TingModule internal constructor(context: ReactApplicationContext) :
     }
 
     // icon options
-    val icon = options?.getMap("icon") as? ReadableMap
+    val icon = options?.getMap("icon")
     val iconURI = icon?.getString("uri")
-    val iconSize = icon?.getInt("size")
+    val iconSize = if (icon?.hasKey("size") == true) icon.getInt("size") else null
 
     //set title
     titleView.text = title
@@ -92,8 +94,11 @@ class TingModule internal constructor(context: ReactApplicationContext) :
       if (bitmap != null) {
         iconView.setImageBitmap(bitmap)
         if (iconSize != null) {
-          iconView.layoutParams.width = iconSize
-          iconView.layoutParams.height = iconSize
+          val number: Int = iconSize.toInt()
+          val size = (number * Resources.getSystem().displayMetrics.density).roundToInt()
+
+          iconView.layoutParams.width = size
+          iconView.layoutParams.height = size
         }
       } else {
         loadDoneIcon(iconView)

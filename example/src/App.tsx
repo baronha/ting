@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 
 import {
@@ -7,20 +8,24 @@ import {
   Text,
   TouchableOpacity,
   View,
-  // Dimensions,
+  Dimensions,
   GestureResponderEvent,
   Image,
 } from 'react-native';
-import { toast } from 'ting';
+import { alert, toast, dismissAlert } from 'ting';
 import MasonryList from '@react-native-seoul/masonry-list';
 import image from './image';
 
-// const { width, height } = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 
 export default function App() {
+  const onDismissAlert = () => {
+    dismissAlert();
+  };
+
   const renderItem = ({ item, i }: { item: any; i: number }) => {
     const { onPress, title, subTitle, backgroundColor, icon } = item;
-    const leftItem = i % 2 !== 0;
+    const firstLeftItem = i === 1;
     return (
       <TouchableOpacity
         key={i}
@@ -29,7 +34,7 @@ export default function App() {
         style={[
           style.item,
           { backgroundColor },
-          leftItem ? { top: '25%' } : {},
+          firstLeftItem ? { marginTop: '30%' } : {},
         ]}
       >
         <View style={style.iconView}>
@@ -49,7 +54,17 @@ export default function App() {
         <Text style={style.subTitle}>Easy toast for React Native</Text>
       </View>
       <MasonryList
-        containerStyle={style.list}
+        ListFooterComponent={
+          <TouchableOpacity
+            activeOpacity={0.9}
+            onPress={onDismissAlert}
+            style={style.footerButton}
+          >
+            <Text style={style.footerTextButton}>Dismiss Alert</Text>
+          </TouchableOpacity>
+        }
+        showsVerticalScrollIndicator={false}
+        style={style.list}
         data={DATA}
         renderItem={renderItem}
         keyExtractor={(_, index) => `item-${index}`}
@@ -69,7 +84,7 @@ type ItemType = {
 const DATA: ItemType[] = [
   {
     title: 'DONE',
-    subTitle: `preset = 'done'`,
+    subTitle: `default`,
     backgroundColor: '#9EE8AE',
     icon: image.balloon,
     onPress: () =>
@@ -80,7 +95,8 @@ const DATA: ItemType[] = [
   },
   {
     title: 'ERROR',
-    icon: image.fire,
+    icon: image.wine,
+    subTitle: `preset = 'error'`,
     backgroundColor: '#FD966A',
     onPress: () =>
       toast({
@@ -96,9 +112,10 @@ const DATA: ItemType[] = [
     subTitle: 'Customize the icon of the toast with an image',
     onPress: () =>
       toast({
+        duration: 10,
         title: 'Xin chào',
         titleColor: '#D60A2E',
-        message: 'Xin chào Việt Nam nha!',
+        message: 'Việt Nam mãi đỉnh 🇻🇳',
         messageColor: '#000000',
         icon: {
           uri: image.vietnam,
@@ -107,7 +124,7 @@ const DATA: ItemType[] = [
   },
   {
     title: 'BOTTOM',
-    backgroundColor: '#FDFEB0',
+    backgroundColor: '#F2EBFF',
     subTitle: `position = 'bottom'`,
     icon: image.cactus,
     onPress: () =>
@@ -116,8 +133,56 @@ const DATA: ItemType[] = [
         position: 'bottom',
         message: 'Ở đây nè',
         icon: {
-          uri: image.vietnam,
+          uri: image.cactus,
         },
+      }),
+  },
+  {
+    title: 'ALERT DONE',
+    backgroundColor: '#F4FECC',
+    icon: image.clapping,
+    subTitle: `default`,
+    onPress: () =>
+      alert({
+        title: 'Xong rồi!',
+        message: 'Hoàn thành thử thách',
+      }),
+  },
+  {
+    title: 'ALERT ERROR',
+    backgroundColor: '#F7C56E',
+    icon: image.bug,
+    subTitle: `default`,
+    onPress: () =>
+      alert({
+        title: 'Xong rồi!',
+        message: 'Hoàn thành thử thách',
+      }),
+  },
+  {
+    title: 'ALERT\nCUSTOMIZE',
+    backgroundColor: '#fff',
+    subTitle: 'Customize the icon of the alert with an image',
+    icon: image.dong,
+    onPress: () =>
+      alert({
+        title: 'Thành công',
+        message: 'Phạt 50 ngàn',
+        icon: {
+          uri: image.dong,
+        },
+      }),
+  },
+  {
+    title: 'ALERT\nLOADER',
+    backgroundColor: '#FEE6CC',
+    subTitle: `preset = 'spinner'`,
+    icon: image.fire,
+    onPress: () =>
+      alert({
+        title: 'Thành công',
+        message: 'Phạt 50 ngàn',
+        preset: 'spinner',
       }),
   },
 ];
@@ -162,6 +227,7 @@ const style = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 18,
     marginTop: 24,
+    textAlign: 'center',
   },
   icon: {
     width: 32,
@@ -175,6 +241,19 @@ const style = StyleSheet.create({
   subLabel: {
     marginTop: 4,
     fontWeight: '300',
+    color: 'rgba(0,0,0,.7)',
+    textAlign: 'center',
+  },
+  footerButton: {
+    backgroundColor: '#fff',
+    marginBottom: width / 2,
+    padding: 20,
+    alignItems: 'center',
+    borderRadius: 20,
+    marginTop: 1,
+  },
+  footerTextButton: {
+    fontWeight: 'bold',
     color: 'rgba(0,0,0,.7)',
     textAlign: 'center',
   },

@@ -208,7 +208,7 @@ struct AlertOptions {
         self.duration = options["duration"] as? TimeInterval
         self.shouldDismissByTap = options["shouldDismissByTap"] as? Bool ?? true
         self.borderRadius = options["borderRadius"] as? CGFloat ?? 24
-        
+        self.preset = AlertPreset(rawValue: options["preset"] as? String ?? "done")!
         self.haptic = AlertHaptic(rawValue: options["haptic"] as? String ?? "none")!
     }
 }

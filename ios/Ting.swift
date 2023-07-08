@@ -115,11 +115,9 @@ open class TingModule: NSObject {
         } catch {
             print("Ting error: \(error)")
         }
-        
+                
         DispatchQueue.main.async {
-            
             alertView?.dismiss() // Dismiss old alert before show new alert
-            
             alertView = SPAlertView(
                 title: options.title,
                 message: options.message,

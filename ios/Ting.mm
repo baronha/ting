@@ -33,5 +33,4 @@ RCT_REMAP_METHOD(toast, options:(NSDictionary *)options)
     [TingModule dismissAlert];
 }
 
-
 @end

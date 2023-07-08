@@ -4,13 +4,16 @@ import android.content.Context
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.graphics.drawable.AnimatedVectorDrawable
+import android.graphics.drawable.GradientDrawable
 import android.os.Handler
 import android.os.Looper
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.ProgressBar
 import android.widget.TextView
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactMethod
@@ -26,27 +29,15 @@ class TingModule internal constructor(context: ReactApplicationContext) :
   TingSpec(context) {
 
   private var context: Context = context
-  private var alertWindow: EasyWindow<EasyWindow<*>>? = null
+  private val alertWindow = EasyWindow<EasyWindow<*>>(currentActivity)
   private val toastWindow = EasyWindow<EasyWindow<*>>(currentActivity)
 
   @ReactMethod
   override fun toast(options: ReadableMap) {
-    val inflater = LayoutInflater.from(context)
-    val container = inflater.inflate(
-      R.layout.toast, null
-    ) as LinearLayout
+    // get container View
+    val container = getContainerView(R.layout.toast, options)
+    val duration: Int = getDuration(options)
 
-    // init view
-    val messageView: TextView = container.findViewById(R.id.message)
-    val titleView: TextView = container.findViewById(R.id.title)
-    val iconView: ImageView = container.findViewById(R.id.icon)
-
-    // get option from js
-    val title = options?.getString("title")
-    val message = options?.getString("message")
-    val preset = options?.getString("preset")
-    val duration = options?.getInt("duration")
-    val time: Int = if (duration != null) duration * 1000 else 3000
     var toastAnim = R.style.ToastTopAnim
     val position: Int = when (options?.getString("position")) {
       "bottom" -> {
@@ -59,13 +50,108 @@ class TingModule internal constructor(context: ReactApplicationContext) :
       }
     }
 
+    runOnUiThread {
+      toastWindow.cancel()
+      toastWindow.apply {
+        setDuration(duration)
+        contentView = container
+        setGravity(position)
+        setYOffset(48)
+        setAnimStyle(toastAnim)
+        setOutsideTouchable(true)
+        setOnClickListener(
+          R.id.toast,
+          EasyWindow.OnClickListener { toast: EasyWindow<*>, _: LinearLayout? ->
+            toast.cancel()
+          })
+      }.show()
+    }
+  }
+
+  @ReactMethod
+  override fun alert(options: ReadableMap) {
+    val container = getContainerView(R.layout.alert, options)
+    val duration: Int = getDuration(options)
+    val blurBackdrop: Int =
+      if (options.hasKey("blurBackdrop")) options.getInt("blurBackdrop") else 0
+
+    var backdropOpacity: Int =
+      if (options.hasKey("backdropOpacity")) options.getInt("backdropOpacity") else 0
+
+    if (backdropOpacity < 0) backdropOpacity = 0
+    else if (backdropOpacity > 1) backdropOpacity = 1
+
+    runOnUiThread {
+      alertWindow.cancel()
+      alertWindow.apply {
+        setDuration(duration)
+        contentView = container
+        setAnimStyle(R.style.AlertAnim)
+        setOutsideTouchable(false)
+        setGravity(Gravity.CENTER)
+        setBlurBehindRadius(blurBackdrop)
+        setBackgroundDimAmount(backdropOpacity.toFloat())
+        setOnClickListener(
+          R.id.alert,
+          EasyWindow.OnClickListener { alert: EasyWindow<*>, _: LinearLayout? ->
+            val shouldDismissByTap =
+              if (options.hasKey("shouldDismissByTap")) options.getBoolean("shouldDismissByTap") else false
+            if (shouldDismissByTap) alert.cancel()
+          })
+
+      }.show()
+    }
+  }
+
+  @ReactMethod
+  override fun dismissAlert() {
+    if (alertWindow != null && alertWindow.isShowing) {
+      runOnUiThread {
+        alertWindow.cancel()
+      }
+    }
+  }
+
+
+  private fun getDuration(options: ReadableMap): Int {
+    val duration = options?.getInt("duration")
+    return if (duration != null) duration * 1000 else 3000
+  }
+
+  private fun getContainerView(view: Int, options: ReadableMap): LinearLayout {
+    val inflater = LayoutInflater.from(context)
+    val container = inflater.inflate(
+      view, null
+    ) as LinearLayout
+
+    val title = options?.getString("title")
+    val titleColor = options?.getString("titleColor")
+    val message = options?.getString("message")
+    val messageColor = options?.getString("messageColor")
+    val preset = options?.getString("preset")
+    val borderRadius =
+      if (options.hasKey("borderRadius")) options?.getInt("borderRadius") else null
+
+    // init view
+    val messageView: TextView = container.findViewById(R.id.message)
+    val titleView: TextView = container.findViewById(R.id.title)
+    val iconView: ImageView = container.findViewById(R.id.icon)
+
     // icon options
     val icon = options?.getMap("icon")
     val iconURI = icon?.getString("uri")
     val iconSize = if (icon?.hasKey("size") == true) icon.getInt("size") else null
+    // set container style
 
-    //set title
+
+    if (isNumber(borderRadius)) {
+      val background = container.background as GradientDrawable
+      background.cornerRadius = convertInt2Size(borderRadius).toFloat()
+    }
+
+    // set title
     titleView.text = title
+    if (titleColor != null) titleView.setTextColor(parseColor(titleColor))
 
     // check message
     if (message == null) {
@@ -73,6 +159,10 @@ class TingModule internal constructor(context: ReactApplicationContext) :
     } else {
       messageView.text = message
     }
+
+    if (messageColor != null) messageView.setTextColor(parseColor(messageColor))
+
+    // Icon by preset
     if (iconURI == null) {
       when (preset) {
         "done" -> {
@@ -81,6 +171,18 @@ class TingModule internal constructor(context: ReactApplicationContext) :
 
         "error" -> {
           iconView.setImageResource(R.drawable.error)
+        }
+
+        // for alert view
+        "spinner" -> {
+          val progressBar = ProgressBar(context)
+          iconView.visibility = ImageView.GONE
+          progressBar.id = R.id.loading_spinner
+          progressBar.layoutParams = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.WRAP_CONTENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+          )
+          container.addView(progressBar, 0)
         }
 
         "none" -> {
@@ -93,9 +195,8 @@ class TingModule internal constructor(context: ReactApplicationContext) :
       val bitmap = loadBitmapFromUri(iconURI)
       if (bitmap != null) {
         iconView.setImageBitmap(bitmap)
-        if (iconSize != null) {
-          val number: Int = iconSize.toInt()
-          val size = (number * Resources.getSystem().displayMetrics.density).roundToInt()
+        if (isNumber(iconSize)) {
+          val size = convertInt2Size(iconSize)
 
           iconView.layoutParams.width = size
           iconView.layoutParams.height = size
@@ -105,37 +206,7 @@ class TingModule internal constructor(context: ReactApplicationContext) :
       }
     }
 
-    runOnUiThread {
-      toastWindow.cancel()
-      toastWindow.apply {
-        setDuration(time)
-        contentView = container
-        setGravity(position)
-        setYOffset(48)
-        setAnimStyle(toastAnim)
-        setOutsideTouchable(true)
-        setOnClickListener(
-          R.id.toast,
-          EasyWindow.OnClickListener { toast: EasyWindow<*>, _: LinearLayout? ->
-            toastWindow.cancel()
-            toast.cancel()
-          })
-      }.show()
-    }
-  }
-
-  @ReactMethod
-  override fun alert(options: ReadableMap) {
-//
-  }
-
-  @ReactMethod
-  override fun dismissAlert() {
-    if (alertWindow != null && alertWindow!!.isShowing) {
-      runOnUiThread {
-        alertWindow!!.cancel()
-      }
-    }
+    return container
   }
 
   override fun getName(): String {
@@ -156,6 +227,24 @@ class TingModule internal constructor(context: ReactApplicationContext) :
   }
 
 
+}
+
+fun isNumber(value: Any?): Boolean {
+  return value != null && (value is Int || value is Long || value is Float || value is Double)
+}
+
+fun parseColor(hexColor: String): Int {
+  val fallbackColor = Color.BLACK
+  val color = try {
+    Color.parseColor(hexColor)
+  } catch (e: IllegalArgumentException) {
+    fallbackColor
+  }
+  return color
+}
+
+fun convertInt2Size(number: Int?): Int {
+  return (number!! * Resources.getSystem().displayMetrics.density).roundToInt()
 }
 
 fun loadBitmapFromUri(imageUri: String): Bitmap? {

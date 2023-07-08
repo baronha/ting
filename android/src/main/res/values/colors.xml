@@ -3,4 +3,5 @@
   <color name="white">#fff</color>
   <color name="done">#1CA658</color>
   <color name="error">#f74850</color>
+  <color name="black">#000</color>
 </resources>

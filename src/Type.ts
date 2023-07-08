@@ -1,15 +1,3 @@
-// export type ToastMargin = {
-//   top?: number;
-//   bottom?: number;
-//   right?: number;
-//   left?: number;
-// };
-
-// export type ToastLayout = {
-//   iconSize?: number;
-//   margin?: ToastMargin;
-// };
-
 export interface Icon {
   size?: number;
   uri?: string | number;
@@ -24,7 +12,7 @@ export interface ToastOptions {
   /**
    * Defaults to `done`.
    */
-  preset?: 'done' | 'error' | 'none'; // TODO custom option
+  preset?: 'done' | 'error' | 'none';
   /**
    * Duration in seconds.
    */
@@ -36,12 +24,13 @@ export interface ToastOptions {
   shouldDismissByDrag?: boolean;
   /**
    * Change the presentation side.
-   * @platform ios
+   * Defaults to `top`.
    */
   position?: 'top' | 'bottom';
 
   /**
    * custom icon
+   *  Defaults to `null`.
    */
   icon?: Icon;
 }
@@ -57,16 +46,33 @@ export interface AlertOptions {
   preset?: 'done' | 'error' | 'none' | 'spinner';
   /**
    * Duration in seconds.
+   * Defaults to 3.
    */
   duration?: number;
+  /**
+   * @platform ios
+   */
   haptic?: 'success' | 'warning' | 'error' | 'none';
   /**
    * Defaults to `true`.
    */
   shouldDismissByTap?: boolean;
-
+  /**
+   * borderRadius for alertView
+   * Defaults to `24`.
+   */
   borderRadius?: number;
-
+  /**
+   *  blur for backdrop
+   * @platform android
+   */
+  blurBackdrop?: number;
+  /**
+   * @platform android
+   * 0 -> 1
+   * Defaults to 0.
+   */
+  backdropOpacity?: number;
   /**
    * custom icon
    */

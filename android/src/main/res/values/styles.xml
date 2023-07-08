@@ -8,4 +8,8 @@
     <item name="android:windowEnterAnimation">@anim/bottom_in</item>
     <item name="android:windowExitAnimation">@anim/bottom_out</item>
   </style>
+  <style name="AlertAnim" parent="android:Animation">
+    <item name="android:windowEnterAnimation">@anim/alert_in</item>
+    <item name="android:windowExitAnimation">@anim/alert_out</item>
+  </style>
 </resources>

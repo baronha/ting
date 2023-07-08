@@ -8,12 +8,12 @@ export default function App() {
     toast({
       title: 'Xin chào',
       message: 'Xin chào Việt Nam nha!',
+      titleColor: '#28b0f3',
       duration: 10,
       preset: 'error',
       // position: 'bottom',
       icon: {
         uri: require('./vietnam.png'),
-        // size: 12,
       },
     });
   };
@@ -23,10 +23,13 @@ export default function App() {
       title: '50 nghìn',
       message: 'Thanh toán thành công',
       duration: 5,
-      preset: 'none',
-      icon: {
-        uri: require('./dong.png'),
-      },
+      preset: 'spinner',
+      shouldDismissByTap: true,
+      blurBackdrop: 12,
+      backdropOpacity: 0.9,
+      // icon: {
+      //   uri: require('./dong.png'),
+      // },
     });
   };
 

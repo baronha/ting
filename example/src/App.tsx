@@ -8,10 +8,8 @@ export default function App() {
     toast({
       title: 'Xin chào',
       message: 'Xin chào Việt Nam nha!',
-      titleColor: '#28b0f3',
       duration: 10,
       preset: 'error',
-      // position: 'bottom',
       icon: {
         uri: require('./vietnam.png'),
       },

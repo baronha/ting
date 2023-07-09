@@ -145,6 +145,8 @@ const DATA: ItemType[] = [
     onPress: () =>
       alert({
         title: 'Xong rồi!',
+        blurBackdrop: 20,
+        backdropOpacity: 0.1,
         message: 'Hoàn thành thử thách',
       }),
   },
@@ -157,6 +159,8 @@ const DATA: ItemType[] = [
       alert({
         preset: 'error',
         title: 'Thất bại!',
+        blurBackdrop: 20,
+        backdropOpacity: 0.1,
         message: 'Thử lại đi fen',
       }),
   },
@@ -169,6 +173,8 @@ const DATA: ItemType[] = [
       alert({
         title: 'Thành công',
         message: 'Phạt 50 ngàn',
+        blurBackdrop: 20,
+        backdropOpacity: 0.1,
         icon: {
           uri: image.dong,
         },
@@ -181,8 +187,9 @@ const DATA: ItemType[] = [
     icon: image.fire,
     onPress: () =>
       alert({
-        title: 'Thành công',
-        message: 'Phạt 50 ngàn',
+        title: 'Loading...',
+        blurBackdrop: 20,
+        backdropOpacity: 0.1,
         preset: 'spinner',
       }),
   },

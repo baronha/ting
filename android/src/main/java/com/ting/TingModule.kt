@@ -25,8 +25,7 @@ import java.net.URL
 import kotlin.math.roundToInt
 
 
-class TingModule internal constructor(context: ReactApplicationContext) :
-  TingSpec(context) {
+class TingModule internal constructor(context: ReactApplicationContext) : TingSpec(context) {
 
   private var context: Context = context
   private val alertWindow = EasyWindow<EasyWindow<*>>(currentActivity)
@@ -59,10 +58,11 @@ class TingModule internal constructor(context: ReactApplicationContext) :
         setYOffset(48)
         setAnimStyle(toastAnim)
         setOutsideTouchable(true)
-        setOnClickListener(
-          R.id.toast,
+        setOnClickListener(R.id.toast,
           EasyWindow.OnClickListener { toast: EasyWindow<*>, _: LinearLayout? ->
-            toast.cancel()
+            val shouldDismissByTap =
+              if (options.hasKey("shouldDismissByDrag")) options.getBoolean("shouldDismissByDrag") else true
+            if (shouldDismissByTap) toast.cancel()
           })
       }.show()
     }
@@ -75,11 +75,11 @@ class TingModule internal constructor(context: ReactApplicationContext) :
     val blurBackdrop: Int =
       if (options.hasKey("blurBackdrop")) options.getInt("blurBackdrop") else 0
 
-    var backdropOpacity: Int =
-      if (options.hasKey("backdropOpacity")) options.getInt("backdropOpacity") else 0
+    var backdropOpacity: Double =
+      if (options.hasKey("backdropOpacity")) options.getDouble("backdropOpacity") else 0.0
 
-    if (backdropOpacity < 0) backdropOpacity = 0
-    else if (backdropOpacity > 1) backdropOpacity = 1
+    if (backdropOpacity < 0) backdropOpacity = 0.0
+    else if (backdropOpacity > 1) backdropOpacity = 1.0
 
     runOnUiThread {
       alertWindow.cancel()
@@ -91,11 +91,10 @@ class TingModule internal constructor(context: ReactApplicationContext) :
         setGravity(Gravity.CENTER)
         setBlurBehindRadius(blurBackdrop)
         setBackgroundDimAmount(backdropOpacity.toFloat())
-        setOnClickListener(
-          R.id.alert,
+        setOnClickListener(R.id.alert,
           EasyWindow.OnClickListener { alert: EasyWindow<*>, _: LinearLayout? ->
             val shouldDismissByTap =
-              if (options.hasKey("shouldDismissByTap")) options.getBoolean("shouldDismissByTap") else false
+              if (options.hasKey("shouldDismissByTap")) options.getBoolean("shouldDismissByTap") else true
             if (shouldDismissByTap) alert.cancel()
           })
 
@@ -114,8 +113,7 @@ class TingModule internal constructor(context: ReactApplicationContext) :
 
 
   private fun getDuration(options: ReadableMap): Int {
-    val duration = options?.getInt("duration")
-    return if (duration != null) duration * 1000 else 3000
+    return if (options.hasKey("duration")) (options.getInt("duration") * 1000) else 3000
   }
 
   private fun getContainerView(view: Int, options: ReadableMap): LinearLayout {
@@ -129,8 +127,7 @@ class TingModule internal constructor(context: ReactApplicationContext) :
     val message = options?.getString("message")
     val messageColor = options?.getString("messageColor")
     val preset = options?.getString("preset")
-    val borderRadius =
-      if (options.hasKey("borderRadius")) options?.getInt("borderRadius") else null
+    val borderRadius = if (options.hasKey("borderRadius")) options?.getInt("borderRadius") else null
 
     // init view
     val messageView: TextView = container.findViewById(R.id.message)
@@ -179,8 +176,7 @@ class TingModule internal constructor(context: ReactApplicationContext) :
           iconView.visibility = ImageView.GONE
           progressBar.id = R.id.loading_spinner
           progressBar.layoutParams = LinearLayout.LayoutParams(
-            LinearLayout.LayoutParams.WRAP_CONTENT,
-            LinearLayout.LayoutParams.WRAP_CONTENT
+            LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT
           )
           container.addView(progressBar, 0)
         }
@@ -189,7 +185,9 @@ class TingModule internal constructor(context: ReactApplicationContext) :
           iconView.visibility = ImageView.GONE
         }
 
-        else -> null
+        else -> {
+          loadDoneIcon(iconView)
+        }
       }
     } else {
       val bitmap = loadBitmapFromUri(iconURI)

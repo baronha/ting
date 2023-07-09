@@ -9,7 +9,9 @@
   android:background="@drawable/background_alert"
   android:gravity="center"
   android:layout_gravity="center"
-  android:orientation="vertical">
+  android:orientation="vertical"
+  android:minWidth="175dp"
+  >
 
   <ImageView
     android:id="@+id/icon"

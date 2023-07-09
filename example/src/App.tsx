@@ -155,8 +155,9 @@ const DATA: ItemType[] = [
     subTitle: `default`,
     onPress: () =>
       alert({
-        title: 'Xong rồi!',
-        message: 'Hoàn thành thử thách',
+        preset: 'error',
+        title: 'Thất bại!',
+        message: 'Thử lại đi fen',
       }),
   },
   {

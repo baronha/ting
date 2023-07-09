@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React from 'react';
+import React, { useState } from 'react';
 
 import {
   SafeAreaView,
@@ -11,6 +11,7 @@ import {
   Dimensions,
   GestureResponderEvent,
   Image,
+  Modal,
 } from 'react-native';
 import { alert, toast, dismissAlert } from 'ting';
 import MasonryList from '@react-native-seoul/masonry-list';
@@ -19,6 +20,47 @@ import image from './image';
 const { width } = Dimensions.get('window');
 
 export default function App() {
+  const [visible, setVisible] = useState(false);
+
+  const onModalPress = () => {
+    setVisible(true);
+  };
+
+  const onModalClose = () => {
+    setVisible(false);
+  };
+
+  return (
+    <SafeAreaView style={style.container}>
+      <View style={style.header}>
+        <Text style={style.title}>Ting</Text>
+        <Text style={style.subTitle}>Easy toast for React Native</Text>
+      </View>
+      <Content openModal={onModalPress} />
+      <Modal
+        onDismiss={onModalClose}
+        animationType="slide"
+        presentationStyle="pageSheet"
+        visible={visible}
+      >
+        <View style={style.modalHeader}>
+          <View style={{ flex: 2 }} />
+          <View style={style.titleModalView}>
+            <Text style={style.title}>Modal</Text>
+          </View>
+          <View style={style.closeModalView}>
+            <TouchableOpacity onPress={onModalClose}>
+              <Image source={image.close} style={style.icon} />
+            </TouchableOpacity>
+          </View>
+        </View>
+        <Content />
+      </Modal>
+    </SafeAreaView>
+  );
+}
+
+const Content = ({ openModal }: { openModal?: () => void }) => {
   const onDismissAlert = () => {
     dismissAlert();
   };
@@ -45,23 +87,27 @@ export default function App() {
       </TouchableOpacity>
     );
   };
-
   return (
-    <SafeAreaView style={style.container}>
+    <View style={style.container}>
       <StatusBar backgroundColor={'#000'} barStyle="light-content" />
-      <View style={style.header}>
-        <Text style={style.title}>Ting</Text>
-        <Text style={style.subTitle}>Easy toast for React Native</Text>
-      </View>
       <MasonryList
         ListFooterComponent={
-          <TouchableOpacity
-            activeOpacity={0.9}
-            onPress={onDismissAlert}
-            style={style.footerButton}
-          >
-            <Text style={style.footerTextButton}>Dismiss Alert</Text>
-          </TouchableOpacity>
+          <View style={style.footer}>
+            <TouchableOpacity
+              activeOpacity={0.9}
+              onPress={onDismissAlert}
+              style={style.footerButton}
+            >
+              <Text style={style.footerTextButton}>Dismiss Alert</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={openModal}
+              activeOpacity={0.9}
+              style={style.footerButton}
+            >
+              <Text style={style.footerTextButton}>Open Modal</Text>
+            </TouchableOpacity>
+          </View>
         }
         showsVerticalScrollIndicator={false}
         style={style.list}
@@ -69,16 +115,17 @@ export default function App() {
         renderItem={renderItem}
         keyExtractor={(_, index) => `item-${index}`}
       />
-    </SafeAreaView>
+    </View>
   );
-}
+};
 
 type ItemType = {
   title: string;
   backgroundColor: string;
   subTitle?: string;
   icon?: number;
-  onPress: (event: GestureResponderEvent) => void;
+  type?: string;
+  onPress?: (event: GestureResponderEvent) => void;
 };
 
 const DATA: ItemType[] = [
@@ -254,7 +301,6 @@ const style = StyleSheet.create({
   },
   footerButton: {
     backgroundColor: '#fff',
-    marginBottom: width / 2,
     padding: 20,
     alignItems: 'center',
     borderRadius: 20,
@@ -264,5 +310,24 @@ const style = StyleSheet.create({
     fontWeight: 'bold',
     color: 'rgba(0,0,0,.7)',
     textAlign: 'center',
+  },
+  footer: {
+    marginBottom: width / 2,
+  },
+  modalHeader: {
+    flexDirection: 'row',
+    backgroundColor: '#000',
+    paddingVertical: 12,
+    borderBottomColor: '#ffffff16',
+    borderBottomWidth: 2,
+  },
+  closeModalView: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 2,
+  },
+  titleModalView: {
+    flex: 8,
+    alignItems: 'center',
   },
 });

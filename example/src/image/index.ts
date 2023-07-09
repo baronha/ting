@@ -7,8 +7,8 @@ const image = {
   balloon: require('./balloon.png'),
   butterfly: require('./butterfly.png'),
   clapping: require('./clapping.png'),
-  box: require('./box.png'),
   bug: require('./bug.png'),
+  close: require('./close.png'),
 };
 
 export default image;

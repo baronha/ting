@@ -105,13 +105,26 @@ alert(options); // easy to use
 | `uri`  | string |     null      | ![Both]  |
 | `size` | number |     null      | ![Both]  |
 
+## To Do
+
+- [ ] `shouldDismissByDrag` on **Android**
+- [ ] `callback`
+
+## Performance
+
+We're trying to improve performance. If you have a better solution, please open a [issue](https://github.com/baronha/ting/issues) or [pull request](https://github.com/baronha/ting/pulls). Best regards!
+
+
 ## Contributing
 
 See the [contributing guide](CONTRIBUTING.md) to learn how to contribute to the repository and the development workflow.
 
 ## License
-
 MIT
+[AlertKit](https://github.com/sparrowcode/AlertKit/blob/v5/LICENSE)
+[SPIndicator](https://github.com/ivanvorobei/SPIndicator/blob/main/LICENSE)
+[EasyWindow](https://github.com/getActivity/EasyWindow/blob/master/LICENSE)
+
 
 <!-- Badge for README -->
 

@@ -4,29 +4,40 @@
   <img src="./resources/Ting.png" width="100%">
 </p>
 
-[![iOS][iOS]][iOS-URL] [![Android][Android]][Android-URL] [![Swift][Swift]][Swift-URL] [![Kotlin][Kotlin]][Kotlin-URL] [![React-Native][React-Native]][React-Native-URL] 
+[![Swift][Swift]][Swift-URL] [![Kotlin][Kotlin]][Kotlin-URL] [![React-Native][React-Native]][React-Native-URL] 
 
 ## Installation
 
 ```sh
-npm i @baronha/ting
-// or
 yarn add @baronha/ting
+or
+npm i @baronha/ting
 ```
 
 ### [![iOS][iOS]][iOS-URL]
-
+#### New Architecture
+```sh
+cd ios && RCT_NEW_ARCH_ENABLED=1 bundle exec pod install --verbose
+```
+#### Older
+```sh
+cd ios && pod install --verbose
+```
 
 ### [![Android][Android]][Android-URL]
 
 ## Usage
 
+### ![Toast][Toast]
+
 ```js
-import { multiply } from 'ting';
-
+import { toast } from 'ting';
 // ...
-
-const result = await multiply(3, 7);
+const options = {
+    title: 'Done 😎',
+    message: 'Successful!!',
+}
+toast(options)
 ```
 
 ## Contributing
@@ -56,4 +67,6 @@ MIT
 [Kotlin]: https://img.shields.io/badge/Kotlin-0095D5?&style=for-the-badge&logo=kotlin&logoColor=white
 [Kotlin-URL]: https://kotlinlang.org/
 
-[Logo]: https://img.shields.io/badge/Ting-FDC753?style=for-the-badge
+[Logo]: https://img.shields.io/badge/🍞_Ting-FDC753?style=for-the-badge
+
+[Toast]: https://img.shields.io/badge/🍞_Toast-FDC753?style=for-the-badge

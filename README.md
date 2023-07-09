@@ -24,14 +24,12 @@ cd ios && RCT_NEW_ARCH_ENABLED=1 bundle exec pod install --verbose
 cd ios && pod install --verbose
 ```
 
-### [![Android][Android]][Android-URL]
-
 ## Usage
 
 ### ![Toast][Toast]
 
 ```js
-import { toast } from 'ting';
+import { toast } from '@baronha/ting';
 // ...
 const options = {
     title: 'Done 😎',
@@ -39,6 +37,8 @@ const options = {
 }
 toast(options)
 ```
+
+### ![Alert][Alert]
 
 ## Contributing
 
@@ -69,4 +69,6 @@ MIT
 
 [Logo]: https://img.shields.io/badge/🍞_Ting-FDC753?style=for-the-badge
 
-[Toast]: https://img.shields.io/badge/🍞_Toast-FDC753?style=for-the-badge
+[Toast]: https://img.shields.io/badge/🍞_Toast-A0E7B0?style=for-the-badge
+
+[Alert]: https://img.shields.io/badge/Alert-7C64F1?style=for-the-badge

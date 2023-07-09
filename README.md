@@ -35,10 +35,41 @@ const options = {
     title: 'Done 😎',
     message: 'Successful!!',
 }
-toast(options)
+
+toast(options) // easy to use
+```
+
+#### Customize Icon
+
+```js
+import { toast } from '@baronha/ting';
+// ...
+const options = {
+    // ...
+    titleColor: "#D60A2E",
+    icon: {
+        uri: require("./vietnam.png"), // or remote 
+        size: 24 
+    }
+}
+
+toast(options) // 🇻🇳
 ```
 
 ### ![Alert][Alert]
+
+
+```js
+import { toast } from '@baronha/ting';
+// ...
+const options = {
+    title: 'Done 😎',
+    message: 'Successful!!',
+}
+
+toast(options) // easy to use
+```
+
 
 ## Contributing
 
@@ -71,4 +102,4 @@ MIT
 
 [Toast]: https://img.shields.io/badge/🍞_Toast-A0E7B0?style=for-the-badge
 
-[Alert]: https://img.shields.io/badge/Alert-7C64F1?style=for-the-badge
+[Alert]: https://img.shields.io/badge/🌭_Alert-7C64F1?style=for-the-badge

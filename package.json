@@ -1,5 +1,5 @@
 {
-  "name": "ting",
+  "name": "@baronha/ting",
   "version": "1.0.0",
   "description": "test",
   "main": "lib/commonjs/index",

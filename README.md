@@ -9,6 +9,8 @@
 
 ![Turbo Native Modules](https://img.shields.io/badge/Turbo_Native_Modules-0052CC?style=for-the-badge) [![Swift][Swift]][Swift-URL] [![Kotlin][Kotlin]][Kotlin-URL]
 
+<a href="https://www.producthunt.com/posts/ting-4?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-ting&#0045;4" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=403758&theme=light" alt="Ting - React&#0032;Native&#0032;Toast | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>
+
 🍞 Flexible and customizable React toast notifications with support for positioning, custom rendering, click handlers, and duration control.
 
 ## Video Demo 📺

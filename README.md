@@ -23,6 +23,7 @@ yarn add @baronha/ting
 or
 npm i @baronha/ting
 ```
+> If you want to use Expo. [Burnt](https://github.com/nandorojo/burnt) is the solution for you.
 
 ### [![iOS][iOS]][iOS-URL]
 

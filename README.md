@@ -91,7 +91,7 @@ alert(options); // easy to use
 | `duration`            |  number  |      `3`      |  ![Both]   |  ✅   |  ✅   | The lifetime of the toast (seconds)                                         |
 | `titleColor`          |  string  |     null      |  ![Both]   |  ✅   |  ✅   |                                                                             |
 | `shouldDismissByDrag` | boolean  |     true      |  ![Both]   |  ✅   |       | The behavior on `Android` is click                                          |
-| `position`            |  string  |     `top`     |  ![Both]   |  ✅   |       | Toast is displayed from `top` or `bottom`                                   |
+| `position`            |  string  |     `top`     |  ![Both]   |  ✅   |       | **Toast** is displayed from `top` or `bottom`                               |
 | `haptic`              |  string  |     null      |   ![iOS]   |  ✅   |       | `success, warning, error, none`                                             |
 | `shouldDismissByTap`  | boolean  |     true      |  ![Both]   |       |  ✅   |                                                                             |
 | `borderRadius`        |  number  |     null      |  ![Both]   |       |  ✅   |                                                                             |

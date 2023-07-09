@@ -12,9 +12,10 @@
 🍞 Flexible and customizable React toast notifications with support for positioning, custom rendering, click handlers, and duration control.
 
 ## Video Demo 📺
-| ![ios] | ![android] |
-| ------ | ---------- |
-| <video src="https://github.com/baronha/ting/assets/23580920/15f5677a-d041-499b-99e8-75c9c9c511c9" /> |  <video src="https://github.com/baronha/ting/assets/23580920/751a7559-0150-46a2-a573-b2b3423e6e29" /> |
+
+| ![ios] | ![android] | Modal |
+| ------ | ---------- | ---------- |
+| <video src="https://github.com/baronha/ting/assets/23580920/15f5677a-d041-499b-99e8-75c9c9c511c9" /> |  <video src="https://github.com/baronha/ting/assets/23580920/751a7559-0150-46a2-a573-b2b3423e6e29" /> |<video src="https://github.com/baronha/ting/assets/23580920/b5f4d555-8fb1-4ffe-901c-268099f16f03" /> |
 
 ## Installation
 

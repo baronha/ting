@@ -115,7 +115,7 @@ open class TingModule: NSObject {
         } catch {
             print("Ting error: \(error)")
         }
-                
+        
         DispatchQueue.main.async {
             alertView?.dismiss() // Dismiss old alert before show new alert
             alertView = SPAlertView(
@@ -123,7 +123,18 @@ open class TingModule: NSObject {
                 message: options.message,
                 preset: preset ?? .done)
             
+            
             if(alertView != nil) {
+                // TODO: Handling Alert Background for iOS
+                if let backgroundColor = Utils.hexStringToColor(alertOption["backgroundColor"] as? String) {
+                    let view = UIView(frame: alertView!.bounds)
+                    view.frame = alertView!.bounds
+                    print("alertView!.bounds:", alertView!.layer.bounds)
+                    view.backgroundColor = backgroundColor
+                    
+                    alertView!.insertSubview(view, at: 1)
+                }
+                
                 alertView!.dismissByTap = options.shouldDismissByTap
                 alertView!.cornerRadius = options.borderRadius
                 

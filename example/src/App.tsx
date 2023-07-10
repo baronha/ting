@@ -202,8 +202,10 @@ const DATA: ItemType[] = [
     backgroundColor: '#F7C56E',
     icon: image.bug,
     subTitle: `default`,
+
     onPress: () =>
       alert({
+        backgroundColor: '#F7C56E',
         preset: 'error',
         title: 'Thất bại!',
         blurBackdrop: 20,

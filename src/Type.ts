@@ -27,6 +27,11 @@ export interface ToastOptions {
    * Defaults to `top`.
    */
   position?: 'top' | 'bottom';
+  /**
+   * backgroundColor for toastView
+   * Defaults to `null`.
+   */
+  backgroundColor?: string;
 
   /**
    * custom icon
@@ -57,6 +62,11 @@ export interface AlertOptions {
    * Defaults to `true`.
    */
   shouldDismissByTap?: boolean;
+  /**
+   * backgroundColor for alertView
+   * Defaults to `null`.
+   */
+  backgroundColor?: string;
   /**
    * borderRadius for alertView
    * Defaults to `24`.

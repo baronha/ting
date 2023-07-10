@@ -108,6 +108,7 @@ alert(options); // easy to use
 | `borderRadius`        |  number  |     null      |  ![Both]   |       |  ✅   |                                                                             |
 | `blurBackdrop`        |  number  |     null      | ![Android] |       |  ✅   |                                                                             |
 | `backdropOpacity`     |  number  |     null      | ![Android] |       |  ✅   |                                                                             |
+| `backgroundColor`     |  string  |     #ffffff      | ![Both] |   ✅  |  ✅   |    ![New_Feature]                                                                         |
 
 ### Icon
 
@@ -160,3 +161,4 @@ MIT
 [BuyMeACoffee-URL]: https://buymeacoffee.com/baronha
 [Kofi]: https://img.shields.io/badge/Ko--fi-F16061?style=for-the-badge&logo=ko-fi&logoColor=white
 [Kofi-URL]: https://ko-fi.com/baoha
+[New_Feature]: https://img.shields.io/badge/✨_New_Feature-D40A2E?style=for-the-badge

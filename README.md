@@ -121,7 +121,7 @@ alert(options); // easy to use
 
 - [ ] `shouldDismissByDrag` on **Android**
 - [ ] `callback`
-- [ ] `backgroundColor`
+- [x] `backgroundColor`
 
 ## Performance
 

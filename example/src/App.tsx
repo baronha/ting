@@ -160,10 +160,11 @@ const DATA: ItemType[] = [
     onPress: () =>
       toast({
         duration: 10,
-        title: 'Xin chào',
-        titleColor: '#D60A2E',
-        message: 'Việt Nam mãi đỉnh 🇻🇳',
-        messageColor: '#000000',
+        backgroundColor: '#333333',
+        messageColor: '#ffffff',
+        title: 'Việt Nam',
+        titleColor: '#ffffff',
+        message: 'Vietnamese Gangz 🇻🇳',
         icon: {
           uri: image.vietnam,
         },
@@ -205,7 +206,6 @@ const DATA: ItemType[] = [
 
     onPress: () =>
       alert({
-        backgroundColor: '#F7C56E',
         preset: 'error',
         title: 'Thất bại!',
         blurBackdrop: 20,
@@ -220,8 +220,11 @@ const DATA: ItemType[] = [
     icon: image.dong,
     onPress: () =>
       alert({
-        title: 'Thành công',
-        message: 'Phạt 50 ngàn',
+        backgroundColor: '#333333',
+        titleColor: '#ffffff',
+        messageColor: '#ffffff',
+        title: 'Quá tốc độ',
+        message: 'Phạt 500k nè ku!',
         blurBackdrop: 20,
         backdropOpacity: 0.1,
         icon: {

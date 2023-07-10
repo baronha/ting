@@ -14,17 +14,6 @@ import SPAlert
 @objc
 open class TingModule: NSObject {
     
-    static func getImage(icon: String) -> UIImage? {
-        if let url = URL.init(string: icon) {
-            if let data = try? Data(contentsOf: url) {
-                if let image = UIImage(data: data) {
-                    return image
-                }
-            }
-        }
-        return nil
-    }
-    
     static var toastView: SPIndicatorView? = nil;
     static var alertView: SPAlertView? = nil;
     
@@ -81,7 +70,8 @@ open class TingModule: NSObject {
                 toastView!.dismissByDrag = options.shouldDismissByDrag
                 toastView!.presentSide = options.position.onPosition();
                 
-                toastView?.present(haptic: options.haptic.onHaptic())
+                toastView!.present(haptic: options.haptic.onHaptic())
+                setBackgroundColor(parentView: toastView, options: toastOption)
             }
         }
     }
@@ -125,15 +115,6 @@ open class TingModule: NSObject {
             
             
             if(alertView != nil) {
-                // TODO: Handling Alert Background for iOS
-                if let backgroundColor = Utils.hexStringToColor(alertOption["backgroundColor"] as? String) {
-                    let view = UIView(frame: alertView!.bounds)
-                    view.frame = alertView!.bounds
-                    print("alertView!.bounds:", alertView!.layer.bounds)
-                    view.backgroundColor = backgroundColor
-                    
-                    alertView!.insertSubview(view, at: 1)
-                }
                 
                 alertView!.dismissByTap = options.shouldDismissByTap
                 alertView!.cornerRadius = options.borderRadius
@@ -153,8 +134,11 @@ open class TingModule: NSObject {
                 if let iconSize = options.layout?.iconSize as? CGFloat {
                     alertView!.layout.iconSize = .init(width: iconSize, height: iconSize)
                 }
+                
                 alertView!.present(
                     haptic: options.haptic.toSPAlertHaptic())
+                
+                setBackgroundColor(parentView: alertView, options: alertOption)
             }
         }
     }
@@ -165,4 +149,29 @@ open class TingModule: NSObject {
             SPAlert.dismiss()
         }
     }
+}
+
+func setBackgroundColor(parentView: UIView?, options: NSDictionary) -> Void {
+    if(parentView != nil){
+        if let backgroundColor = Utils.hexStringToColor(options["backgroundColor"] as? String) {
+            parentView!.layer.masksToBounds = true
+            
+            let view = UIView(frame: parentView!.bounds)
+            view.frame = parentView!.bounds
+            view.backgroundColor = backgroundColor
+            parentView!.insertSubview(view, at: 1)
+            
+        }
+    }
+}
+
+func getImage(icon: String) -> UIImage? {
+    if let url = URL.init(string: icon) {
+        if let data = try? Data(contentsOf: url) {
+            if let image = UIImage(data: data) {
+                return image
+            }
+        }
+    }
+    return nil
 }

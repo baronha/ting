@@ -94,7 +94,7 @@ alert(options); // easy to use
 | Property              |   Type   | Default value |  Platform  | Toast | Alert | Description                                                                 |
 | --------------------- | :------: | :-----------: | :--------: | :---: | :---: | :-------------------------------------------------------------------------- |
 | `title`               |  string  |     null      |  ![Both]   |  ✅   |  ✅   |                                                                             |
-| `subTitle`            |  string  |     null      |  ![Both]   |  ✅   |  ✅   |                                                                             |
+| `message`            |  string  |     null      |  ![Both]   |  ✅   |  ✅   |                                                                             |
 | `titleColor`          |  string  |     null      |  ![Both]   |  ✅   |  ✅   |                                                                             |
 | `messageColor`        |  string  |     null      |  ![Both]   |  ✅   |  ✅   |                                                                             |
 | `icon`                | `object` |     null      |  ![Both]   |  ✅   |  ✅   | See [Icon](###Icon)                                                         |

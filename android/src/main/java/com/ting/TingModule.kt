@@ -1,11 +1,14 @@
 package com.ting
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.drawable.AnimatedVectorDrawable
+import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.os.Handler
 import android.os.Looper
@@ -111,7 +114,6 @@ class TingModule internal constructor(context: ReactApplicationContext) : TingSp
     }
   }
 
-
   private fun getDuration(options: ReadableMap): Int {
     return if (options.hasKey("duration")) (options.getInt("duration") * 1000) else 3000
   }
@@ -127,6 +129,7 @@ class TingModule internal constructor(context: ReactApplicationContext) : TingSp
     val message = options?.getString("message")
     val messageColor = options?.getString("messageColor")
     val preset = options?.getString("preset")
+    val backgroundColor = options?.getString("backgroundColor")
     val borderRadius = if (options.hasKey("borderRadius")) options?.getInt("borderRadius") else null
 
     // init view
@@ -140,10 +143,19 @@ class TingModule internal constructor(context: ReactApplicationContext) : TingSp
     val iconSize = if (icon?.hasKey("size") == true) icon.getInt("size") else null
     // set container style
 
+    val background = container.background as GradientDrawable
 
     if (isNumber(borderRadius)) {
-      val background = container.background as GradientDrawable
       background.cornerRadius = convertInt2Size(borderRadius).toFloat()
+      intArrayOf(Color.BLUE)
+    }
+
+    if (backgroundColor != null) {
+      val color = intArrayOf(parseColor(backgroundColor), parseColor(backgroundColor))
+      background.colors = color
+    }else{
+      val color = intArrayOf(Color.WHITE, Color.WHITE)
+      background.colors = color
     }
 
     // set title

@@ -64,6 +64,8 @@ import { toast } from '@baronha/ting';
 // ...
 const options = {
   // ...
+  title: "Vietnamese Gangz",
+  message: "Anh em tao là Vietnamese Gangz",
   titleColor: '#D60A2E',
   icon: {
     uri: require('./vietnam.png'), // or remote

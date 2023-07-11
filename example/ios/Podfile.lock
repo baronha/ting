@@ -1060,7 +1060,7 @@ PODS:
   - SocketRocket (0.6.0)
   - SPAlert (4.2.0)
   - SPIndicator (1.6.4)
-  - Ting (0.1.0):
+  - Ting (1.0.2):
     - RCT-Folly
     - RCTRequired
     - RCTTypeSafety
@@ -1308,10 +1308,10 @@ SPEC CHECKSUMS:
   SocketRocket: fccef3f9c5cedea1353a9ef6ada904fde10d6608
   SPAlert: 735da1f16a887e294719217572ce1f936d8c8782
   SPIndicator: 93e0a4fb23de51294ac48e874c0f081a5e293e4f
-  Ting: d2047cd80decba2099a4eda098cd52c057e9d15c
+  Ting: 42fb131b58675f9f316d8294091af51d3f63fa8d
   Yoga: 1d6727ed193122f6adaf435c3de1a768326ff83b
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: f427bb51bfab067c4a74ed0ad347b4125975fe53
+PODFILE CHECKSUM: c20c2acb048cced7f841dd558b3de6b0e64f9fcc
 
 COCOAPODS: 1.12.1

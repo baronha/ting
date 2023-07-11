@@ -7,7 +7,6 @@
 
 import Foundation
 import SPIndicator
-import Foundation
 import UIKit
 import SPAlert
 
@@ -21,23 +20,7 @@ open class TingModule: NSObject {
     public static func toast(toastOption: NSDictionary) -> Void {
         var preset: SPIndicatorIconPreset?
         
-        var options: ToastOptions = ToastOptions(options: toastOption)
-        
-        // custom icon
-        if let icon = toastOption["icon"] as? NSDictionary {
-            let tintColor = Utils.hexStringToColor(icon["tintColor"] as? String)
-            
-            if let iconSize = icon["size"] as? CGFloat {
-                options.layout = .init(iconSize: iconSize, margins: nil)
-            }
-            
-            if let iconURI = icon["uri"] as? String {
-                if let icon = getImage(icon: iconURI) {
-                    options.icon = .init(image: icon, color: tintColor)
-                    options.preset = .custom
-                }
-            }
-        }
+        let options: ToastOptions = ToastOptions(options: toastOption)
         
         do {
             preset = try options.preset.onPreset(options)
@@ -51,27 +34,26 @@ open class TingModule: NSObject {
             toastView = (preset != nil) ? SPIndicatorView(title: options.title, message: options.message, preset: preset ?? .done):  SPIndicatorView(title: options.title, message: options.message)
             
             if(toastView != nil){
-                if let titleColor = Utils.hexStringToColor(toastOption["titleColor"] as? String) {
+                
+                if let titleColor = options.titleColor {
                     toastView!.titleLabel?.textColor = titleColor
                 }
                 
-                if let messageColor = Utils.hexStringToColor(toastOption["messageColor"] as? String) {
+                if let messageColor = options.messageColor {
                     toastView!.subtitleLabel?.textColor = messageColor
                 }
                 
-                if let duration = options.duration {
-                    toastView!.duration = duration
-                }
+                toastView!.duration = options.duration
                 
-                if let iconSize = options.layout?.iconSize as? CGFloat {
-                    toastView!.layout.iconSize = .init(width: iconSize, height: iconSize)
+                if let iconSize = options.iconSize {
+                    toastView!.layout.iconSize = iconSize
                 }
                 
                 toastView!.dismissByDrag = options.shouldDismissByDrag
                 toastView!.presentSide = options.position.onPosition();
                 
                 toastView!.present(haptic: options.haptic.onHaptic())
-                setBackgroundColor(parentView: toastView, options: toastOption)
+                setBackgroundColor(parentView: toastView, backgroundColor: options.backgroundColor ?? nil)
             }
         }
     }
@@ -81,24 +63,7 @@ open class TingModule: NSObject {
     public static func alert(alertOption: NSDictionary) -> Void {
         var preset: SPAlertIconPreset?
         
-        var options: AlertOptions = AlertOptions(options: alertOption)
-        
-        // custom icon
-        if let icon = alertOption["icon"] as? NSDictionary {
-            let tintColor = Utils.hexStringToColor(icon["tintColor"] as? String)
-            
-            if let iconSize = icon["size"] as? CGFloat {
-                options.layout = .init(iconSize: iconSize)
-            }
-            
-            if let iconURI = icon["uri"] as? String {
-                if let icon = getImage(icon: iconURI) {
-                    options.icon = .init(image: icon, color: tintColor)
-                    options.preset = .custom
-                }
-            }
-        }
-        
+        let options: AlertOptions = AlertOptions(options: alertOption)
         
         do {
             preset = try options.preset.onPreset(options)
@@ -119,26 +84,28 @@ open class TingModule: NSObject {
                 alertView!.dismissByTap = options.shouldDismissByTap
                 alertView!.cornerRadius = options.borderRadius
                 
-                if let titleColor = Utils.hexStringToColor(alertOption["titleColor"] as? String) {
+                if let titleColor = options.titleColor {
                     alertView!.titleLabel?.textColor = titleColor
                 }
                 
-                if let messageColor = Utils.hexStringToColor(alertOption["messageColor"] as? String) {
+                if let messageColor = options.messageColor {
                     alertView!.subtitleLabel?.textColor = messageColor
                 }
                 
-                if let duration = options.duration {
-                    alertView!.duration = duration
-                }
+                alertView!.duration = options.duration
                 
-                if let iconSize = options.layout?.iconSize as? CGFloat {
-                    alertView!.layout.iconSize = .init(width: iconSize, height: iconSize)
+                if let iconSize = options.iconSize {
+                    alertView!.layout.iconSize = iconSize
+                }
+                                
+                if let iconSize = options.iconSize {
+                    alertView!.layout.iconSize = iconSize
                 }
                 
                 alertView!.present(
                     haptic: options.haptic.toSPAlertHaptic())
                 
-                setBackgroundColor(parentView: alertView, options: alertOption)
+                setBackgroundColor(parentView: alertView, backgroundColor: options.backgroundColor ?? nil)
             }
         }
     }
@@ -151,27 +118,28 @@ open class TingModule: NSObject {
     }
 }
 
-func setBackgroundColor(parentView: UIView?, options: NSDictionary) -> Void {
-    if(parentView != nil){
-        if let backgroundColor = Utils.hexStringToColor(options["backgroundColor"] as? String) {
-            parentView!.layer.masksToBounds = true
-            
-            let view = UIView(frame: parentView!.bounds)
-            view.frame = parentView!.bounds
-            view.backgroundColor = backgroundColor
-            parentView!.insertSubview(view, at: 1)
-            
-        }
-    }
-}
-
-func getImage(icon: String) -> UIImage? {
-    if let url = URL.init(string: icon) {
-        if let data = try? Data(contentsOf: url) {
-            if let image = UIImage(data: data) {
-                return image
-            }
-        }
+func getIcon(options: NSDictionary) -> NSDictionary? {
+    if let icon = options["icon"] as? NSDictionary {
+        return icon
     }
     return nil
+}
+
+func setBackdrop(alertView:  SPAlertView,  options: NSDictionary) -> Void {
+    let windowView = alertView.presentWindow
+    
+    let view = UIView(frame: windowView!.bounds)
+    view.backgroundColor = .gray
+    windowView!.insertSubview(view, at: 1)
+    
+}
+
+func setBackgroundColor(parentView: UIView?, backgroundColor: UIColor?) -> Void {
+    if(parentView != nil && backgroundColor != nil){
+        parentView!.layer.masksToBounds = true
+        let view = UIView(frame: parentView!.bounds)
+        view.backgroundColor = backgroundColor
+        parentView!.insertSubview(view, at: 1)
+        
+    }
 }

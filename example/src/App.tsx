@@ -167,6 +167,7 @@ const DATA: ItemType[] = [
         message: 'Vietnamese Gangz 🇻🇳',
         icon: {
           uri: image.vietnam,
+          tintColor: '#FFCDCD',
         },
       }),
   },

@@ -13,16 +13,60 @@ enum TingError: Error {
     case invalidSystemName
 }
 
-struct ToastOptions {
-    var title: String
+// option for alert and toast
+class Options {
+    var title: String = ""
+    var message: String? = ""
+    var duration: TimeInterval
+    var titleColor: UIColor? = nil
+    var messageColor: UIColor? = nil
+    var backgroundColor: UIColor? = nil
+    var icon: UIImage? = nil
+    var iconSize: CGSize? = nil
     
-    var message: String?
-    
-    var preset: ToastPreset
-    
-    var duration: TimeInterval? = 1
-    
-    var layout: ToastLayout?
+    init(option:NSDictionary){
+        self.title = option["title"] as? String ?? "Title"
+        self.message = option["message"] as? String
+        self.duration = option["duration"] as? TimeInterval ?? 3
+        self.backgroundColor = UIColor.hexStringToColor(option["backgroundColor"] as? String)
+        
+        if let messageColor = option["messageColor"] as? String {
+            self.messageColor = UIColor.hexStringToColor(messageColor)
+        }
+        
+        if let titleColor = option["titleColor"] as? String {
+            self.titleColor = UIColor.hexStringToColor(titleColor)
+        }
+        
+        // custom icon
+        if let icon = option["icon"] as? NSDictionary {
+            if let iconSize = icon["size"] as? CGFloat {
+                self.iconSize = .init(width: iconSize, height: iconSize)
+            }
+            
+            if let customIcon = getCustomIcon(icon: icon) {
+                self.icon = customIcon
+            }
+        }
+    }
+}
+
+func getCustomIcon(icon: NSDictionary) -> UIImage? {
+    if let iconURI = icon["uri"] as? String {
+        if let iconImage = getImage(icon: iconURI) {
+            let color = UIColor.hexStringToColor(icon["tintColor"] as? String)
+            if(color != nil){
+                return iconImage.getTintColor(color!)
+            }
+            return iconImage
+        }
+        
+    }
+    return nil
+}
+
+
+class ToastOptions: Options {
     
     var shouldDismissByDrag: Bool
     
@@ -30,20 +74,60 @@ struct ToastOptions {
     
     var position: ToastPosition
     
-    var icon: Icon? = nil
+    var preset: ToastPreset = ToastPreset.done
     
     init(options: NSDictionary) {
-        self.title = options["title"] as? String ?? "Title"
-        self.message = options["message"] as? String
-        self.duration = options["duration"] as? TimeInterval
         self.shouldDismissByDrag = options["shouldDismissByDrag"] as? Bool ?? true
-        
         self.position = ToastPosition(rawValue: options["position"] as? String ?? "top")!
-        self.preset = ToastPreset(rawValue: options["preset"] as? String ?? "done")!
         self.haptic = ToastHaptic(rawValue: options["haptic"] as? String ?? "none")!
+        
+        super.init(option: options)
+        
+        if(self.icon != nil){
+            self.preset = .custom
+        }else{
+            if let preset = options["preset"] as? String {
+                self.preset = ToastPreset(rawValue: preset)!
+            }else{
+                self.preset = ToastPreset.done
+            }
+        }
     }
     
 }
+
+
+class AlertOptions: Options {
+    var preset: AlertPreset = AlertPreset.done
+    
+    var shouldDismissByTap: Bool = true
+    
+    var haptic: AlertHaptic = .none
+    
+    var borderRadius: CGFloat = 24
+    
+    
+    init(options: NSDictionary) {
+        self.preset = AlertPreset(rawValue: options["preset"] as? String ?? "done")!
+        self.shouldDismissByTap = options["shouldDismissByTap"] as? Bool ?? true
+        self.borderRadius = options["borderRadius"] as? CGFloat ?? 24
+        self.haptic = AlertHaptic(rawValue: options["haptic"] as? String ?? "none")!
+        
+        super.init(option: options)
+        
+        if(self.icon != nil){
+            self.preset = .custom
+        }else{
+            if let preset = options["preset"] as? String {
+                self.preset = AlertPreset(rawValue: preset)!
+            }else{
+                self.preset = AlertPreset.done
+            }
+        }
+        
+    }
+}
+
 
 enum ToastPreset: String {
     case done
@@ -53,22 +137,18 @@ enum ToastPreset: String {
     
     func onPreset(_ options: ToastOptions?) throws -> SPIndicatorIconPreset? {
         switch self {
-        case .done:
-            return .done
         case .error:
             return .error
         case .none:
             return .none
         case .custom:
-            guard let image = options?.icon?.image ?? UIImage.init(named: "swift") else {
+            guard let image = options?.icon ?? UIImage.init(named: "swift") else {
                 throw TingError.invalidSystemName
             }
-            
-            if let iconColor = options?.icon?.color {
-                return .custom(image.withTintColor(iconColor, renderingMode: .alwaysOriginal))
-            }else{
-                return .custom(image)
-            }
+            return .custom(image)
+        default:
+            // default is done
+            return .done
         }
     }
 }
@@ -81,14 +161,8 @@ struct ToastMargins {
 }
 
 
-struct ToastLayout {
-    var iconSize: CGFloat?
-    var margins: ToastMargins?
-}
-
 struct Icon {
     var image: UIImage? = nil
-    var color: UIColor? = nil
 }
 
 
@@ -135,8 +209,6 @@ enum AlertPreset: String, CaseIterable {
     
     func onPreset(_ options: AlertOptions?) throws -> SPAlertIconPreset {
         switch self {
-        case .done:
-            return .done
         case .error:
             return .error
         case .heart:
@@ -144,19 +216,16 @@ enum AlertPreset: String, CaseIterable {
         case .spinner:
             return .spinner
         case .custom:
-            guard let image = options?.icon?.image ?? UIImage.init(named: "swift") else {
+            guard let image = options?.icon ?? UIImage.init(named: "swift") else {
                 throw TingError.invalidSystemName
             }
-            
-            if let iconColor = options?.icon?.color {
-                return .custom(image.withTintColor(iconColor, renderingMode: .alwaysOriginal))
-            }else{
-                return .custom(image)
-            }
+            return .custom(image)
+        // default is done
+        default:
+            return .done
         }
     }
 }
-
 
 enum AlertHaptic: String, CaseIterable {
     case success
@@ -175,40 +244,5 @@ enum AlertHaptic: String, CaseIterable {
         case .none:
             return .none
         }
-    }
-}
-
-struct AlertLayout {
-    var iconSize: CGFloat?
-}
-
-struct AlertOptions {
-    var title: String = ""
-    
-    var message: String?
-    
-    var preset: AlertPreset = AlertPreset.done
-    
-    var duration: TimeInterval?
-    
-    var shouldDismissByTap: Bool = true
-    
-    var haptic: AlertHaptic = .none
-    
-    var layout: AlertLayout?
-    
-    var icon: Icon? = nil
-    
-    var borderRadius: CGFloat = 24
-    
-    
-    init(options: NSDictionary) {
-        self.title = options["title"] as? String ?? "Title"
-        self.message = options["message"] as? String
-        self.duration = options["duration"] as? TimeInterval
-        self.shouldDismissByTap = options["shouldDismissByTap"] as? Bool ?? true
-        self.borderRadius = options["borderRadius"] as? CGFloat ?? 24
-        self.preset = AlertPreset(rawValue: options["preset"] as? String ?? "done")!
-        self.haptic = AlertHaptic(rawValue: options["haptic"] as? String ?? "none")!
     }
 }

@@ -15,9 +15,9 @@
 
 ## Video Demo 📺
 
-| ![ios] | ![android] | Modal |
-| ------ | ---------- | ---------- |
-| <video src="https://github.com/baronha/ting/assets/23580920/15f5677a-d041-499b-99e8-75c9c9c511c9" /> |  <video src="https://github.com/baronha/ting/assets/23580920/751a7559-0150-46a2-a573-b2b3423e6e29" /> |<video src="https://github.com/baronha/ting/assets/23580920/b5f4d555-8fb1-4ffe-901c-268099f16f03" /> |
+| ![ios]                                                                                               | ![android]                                                                                           | Modal                                                                                                |
+|------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------|
+| <video src="https://github.com/baronha/ting/assets/23580920/15f5677a-d041-499b-99e8-75c9c9c511c9" /> | <video src="https://github.com/baronha/ting/assets/23580920/751a7559-0150-46a2-a573-b2b3423e6e29" /> | <video src="https://github.com/baronha/ting/assets/23580920/b5f4d555-8fb1-4ffe-901c-268099f16f03" /> |
 
 ## Installation
 
@@ -91,29 +91,29 @@ alert(options); // easy to use
 
 ## Options
 
-| Property              |   Type   | Default value |  Platform  | Toast | Alert | Description                                                                 |
-| --------------------- | :------: | :-----------: | :--------: | :---: | :---: | :-------------------------------------------------------------------------- |
-| `title`               |  string  |     null      |  ![Both]   |  ✅   |  ✅   |                                                                             |
-| `message`            |  string  |     null      |  ![Both]   |  ✅   |  ✅   |                                                                             |
-| `titleColor`          |  string  |     null      |  ![Both]   |  ✅   |  ✅   |                                                                             |
-| `messageColor`        |  string  |     null      |  ![Both]   |  ✅   |  ✅   |                                                                             |
-| `icon`                | `object` |     null      |  ![Both]   |  ✅   |  ✅   | See [Icon](###Icon)                                                         |
-| `preset`              |  string  |    `done`     |  ![Both]   |  ✅   |  ✅   | **Toast**: `done, error, none`.<br/>**Alert**: `done, error, none, spinner` |
-| `duration`            |  number  |      `3`      |  ![Both]   |  ✅   |  ✅   | The lifetime of the toast (seconds)                                         |
-| `titleColor`          |  string  |     null      |  ![Both]   |  ✅   |  ✅   |                                                                             |
-| `shouldDismissByDrag` | boolean  |     true      |  ![Both]   |  ✅   |       | The behavior on `Android` is click                                          |
-| `position`            |  string  |     `top`     |  ![Both]   |  ✅   |       | **Toast** is displayed from `top` or `bottom`                               |
-| `haptic`              |  string  |     null      |   ![iOS]   |  ✅   |       | `success, warning, error, none`                                             |
-| `shouldDismissByTap`  | boolean  |     true      |  ![Both]   |       |  ✅   |                                                                             |
-| `borderRadius`        |  number  |     null      |  ![Both]   |       |  ✅   |                                                                             |
-| `blurBackdrop`        |  number  |     null      | ![Android] |       |  ✅   |                                                                             |
-| `backdropOpacity`     |  number  |     null      | ![Android] |       |  ✅   |                                                                             |
-| `backgroundColor`     |  string  |     #ffffff      | ![Both] |   ✅  |  ✅   |    ![New_Feature]                                                                         |
+| Property              |   Type   | Default value |  Platform  | Toast | Alert | Description                                                                                 |
+|-----------------------|:--------:|:-------------:|:----------:|:-----:|:-----:|:--------------------------------------------------------------------------------------------|
+| `title`               |  string  |     null      |  ![Both]   |   ✅   |   ✅   |                                                                                             |
+| `message`             |  string  |     null      |  ![Both]   |   ✅   |   ✅   |                                                                                             |
+| `titleColor`          |  string  |     null      |  ![Both]   |   ✅   |   ✅   | The color of the title text in hexadecimal format (e.g., #FF0000)                           |
+| `messageColor`        |  string  |     null      |  ![Both]   |   ✅   |   ✅   | The color of the message text in hexadecimal format (e.g., #00FF00)                         |
+| `icon`                | `object` |     null      |  ![Both]   |   ✅   |   ✅   | See [Icon](###Icon)                                                                         |
+| `preset`              |  string  |    `done`     |  ![Both]   |   ✅   |   ✅   | **Toast**: `done, error, none`.<br/>**Alert**: `done, error, none, spinner`                 |
+| `duration`            |  number  |      `3`      |  ![Both]   |   ✅   |   ✅   | The lifetime of the toast (seconds)                                                         |
+| `titleColor`          |  string  |     null      |  ![Both]   |   ✅   |   ✅   |                                                                                             |
+| `shouldDismissByDrag` | boolean  |     true      |  ![Both]   |   ✅   |       | The behavior on `Android` is click                                                          |
+| `position`            |  string  |     `top`     |  ![Both]   |   ✅   |       | **Toast** is displayed from `top` or `bottom`                                               |
+| `haptic`              |  string  |     null      |   ![iOS]   |   ✅   |       | `success, warning, error, none`                                                             |
+| `shouldDismissByTap`  | boolean  |     true      |  ![Both]   |       |   ✅   |                                                                                             |
+| `borderRadius`        |  number  |     null      |  ![Both]   |       |   ✅   |                                                                                             |
+| `blurBackdrop`        |  number  |     null      | ![Android] |       |   ✅   |                                                                                             |
+| `backdropOpacity`     |  number  |     null      | ![Android] |       |   ✅   |                                                                                             |
+| `backgroundColor`     |  string  |    #ffffff    |  ![Both]   |   ✅   |   ✅   | The background color of the toast in hexadecimal format (e.g., #0000FF) <br/>![New_Feature] |
 
 ### Icon
 
 | icon   |  Type  | Default value | Platform |
-| ------ | :----: | :-----------: | :------: |
+|--------|:------:|:-------------:|:--------:|
 | `uri`  | string |     null      | ![Both]  |
 | `size` | number |     null      | ![Both]  |
 

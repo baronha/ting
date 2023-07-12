@@ -29,6 +29,10 @@ RCT_REMAP_METHOD(toast, options:(NSDictionary *)options)
     [TingModule alert:options];
 }
 
+- (void)initialize:(NSDictionary *)options {
+    [TingModule initialize:options];
+}
+
 - (void)dismissAlert {
     [TingModule dismissAlert];
 }

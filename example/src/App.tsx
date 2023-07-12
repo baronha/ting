@@ -13,7 +13,7 @@ import {
   Image,
   Modal,
 } from 'react-native';
-import { alert, toast, dismissAlert } from 'ting';
+import { alert, toast, dismissAlert } from '@baronha/ting';
 import MasonryList from '@react-native-seoul/masonry-list';
 import image from './image';
 

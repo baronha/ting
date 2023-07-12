@@ -48,3 +48,10 @@ export function alert(options: AlertOptions): void {
 export function dismissAlert(): void {
   return Ting.dismissAlert();
 }
+
+export function initialize(options: {
+  alert?: AlertOptions;
+  toast?: ToastOptions;
+}): void {
+  return Ting.initialize(options);
+}

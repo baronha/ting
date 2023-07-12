@@ -2,7 +2,7 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "ting": ["./src/index"]
+      "@baronha/ting": ["./src/index"]
     },
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,

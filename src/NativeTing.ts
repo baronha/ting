@@ -5,7 +5,7 @@ export interface Spec extends TurboModule {
   toast(options: Object): void;
   alert(options: Object): void;
   dismissAlert(): void;
-  // alert(options: Object): void;
+  initialize(options: Object): void;
 }
 
 export default TurboModuleRegistry.getEnforcing<Spec>('Ting');

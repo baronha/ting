@@ -16,9 +16,13 @@ open class TingModule: NSObject {
     static var toastView: SPIndicatorView? = nil;
     static var alertView: SPAlertView? = nil;
     
+    static var toastOptionInit: NSMutableDictionary? = nil
+    static var alertOptionInit: NSMutableDictionary? = nil
+    
     @objc(toast:)
     public static func toast(toastOption: NSDictionary) -> Void {
         var preset: SPIndicatorIconPreset?
+        
         
         let options: ToastOptions = ToastOptions(options: toastOption)
         
@@ -29,7 +33,7 @@ open class TingModule: NSObject {
         }
         
         DispatchQueue.main.async {
-            toastView?.dismiss() // Dismiss old alert before show new toast
+            toastView?.dismiss() // Dismiss old toast before show new toast
             
             toastView = (preset != nil) ? SPIndicatorView(title: options.title, message: options.message, preset: preset ?? .done):  SPIndicatorView(title: options.title, message: options.message)
             
@@ -110,6 +114,18 @@ open class TingModule: NSObject {
         }
     }
     
+    
+    @objc(initialize:)
+    public static func initialize(initOptions: NSDictionary) -> Void {
+        if let toastOption = initOptions["toast"] as? NSDictionary {
+            toastOptionInit = NSMutableDictionary(dictionary: toastOption)
+        }
+        
+        if let alertOption = initOptions["alert"] as? NSDictionary {
+//            alertOptionInit = NSMutableDictionary(dictionary: alertOption)
+        }
+    }
+    
     @objc(dismissAlert)
     public static func dismissAlert() -> Void {
         DispatchQueue.main.async {
@@ -133,6 +149,7 @@ func setBackdrop(alertView:  SPAlertView,  options: NSDictionary) -> Void {
     windowView!.insertSubview(view, at: 1)
     
 }
+
 
 func setBackgroundColor(parentView: UIView?, backgroundColor: UIColor?) -> Void {
     if(parentView != nil && backgroundColor != nil){

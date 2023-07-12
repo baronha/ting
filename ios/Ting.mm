@@ -6,11 +6,21 @@
 
 RCT_EXPORT_MODULE()
 
-
-RCT_REMAP_METHOD(toast, options:(NSDictionary *)options)
+RCT_REMAP_METHOD(toast, oldToast:(NSDictionary *)options)
 {
   [self toast:options];
 }
+
+RCT_REMAP_METHOD(alert, oldAlert:(NSDictionary *)options)
+{
+  [self alert:options];
+}
+
+RCT_REMAP_METHOD(dismissAlert, oldDismissAlert)
+{
+  [self dismissAlert];
+}
+
 
 // Don't compile this code when we build for the old architecture.
 #ifdef RCT_NEW_ARCH_ENABLED

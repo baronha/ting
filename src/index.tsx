@@ -37,16 +37,17 @@ const convertIconFile = (options: ToastOptions | AlertOptions): void => {
 
 export function toast(options: ToastOptions): void {
   convertIconFile(options);
-  return Ting.toast(options);
+  Ting.toast(options);
 }
 
 export function alert(options: AlertOptions): void {
   convertIconFile(options);
-  return Ting.alert(options);
+  console.log('Ting: ', Ting);
+  Ting.alert(options);
 }
 
 export function dismissAlert(): void {
-  return Ting.dismissAlert();
+  Ting.dismissAlert();
 }
 
 export function initialize(options: {

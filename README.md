@@ -176,6 +176,7 @@ alert({
 - [x] Initialize for the first time
 - [x] `tintColor` for icon
 - [x] `backgroundColor`
+- [ ] custom color like StyleSheet (e.g. `#fff`, `red`, `rgba(0, 0, 0, .8)`)
 - [ ] `spinner preset for toast`
 - [ ] `shouldDismissByDrag` on **Android**
 - [ ] `callback`

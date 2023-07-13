@@ -151,7 +151,7 @@ alert({
 | `titleColor`          |  string  |     null      |  ![Both]   |  ✅   |  ✅   | The color of the title text in hexadecimal format (e.g., #FF0000)                           |
 | `messageColor`        |  string  |     null      |  ![Both]   |  ✅   |  ✅   | The color of the message text in hexadecimal format (e.g., #00FF00)                         |
 | `icon`                | `object` |     null      |  ![Both]   |  ✅   |  ✅   | See [Icon](###Icon)                                                                         |
-| `preset`              |  string  |    `done`     |  ![Both]   |  ✅   |  ✅   | **Toast**: `done, error, none`.<br/>**Alert**: `done, error, none, spinner`                 |
+| `preset`              |  string  |    `done`     |  ![Both]   |  ✅   |  ✅   | `done, error, none, spinner`                 |
 | `duration`            |  number  |      `3`      |  ![Both]   |  ✅   |  ✅   | The lifetime of the toast (seconds)                                                         |
 | `titleColor`          |  string  |     null      |  ![Both]   |  ✅   |  ✅   |                                                                                             |
 | `shouldDismissByDrag` | boolean  |     true      |  ![Both]   |  ✅   |       | The behavior on `Android` is click                                                          |

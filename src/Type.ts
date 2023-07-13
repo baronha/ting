@@ -12,7 +12,7 @@ export interface ToastOptions {
   /**
    * Defaults to `done`.
    */
-  preset?: 'done' | 'error' | 'none';
+  preset?: 'done' | 'error' | 'none' | 'spinner';
   /**
    * Duration in seconds.
    */

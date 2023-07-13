@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import SPIndicator
 import SPAlert
 
 enum TingError: Error {
@@ -134,6 +133,7 @@ enum ToastPreset: String {
     case error
     case none
     case custom
+    case spinner
     
     func onPreset(_ options: ToastOptions?) throws -> SPIndicatorIconPreset? {
         switch self {
@@ -141,6 +141,12 @@ enum ToastPreset: String {
             return .error
         case .none:
             return .none
+        case .spinner:
+            if #available(iOS 13.0, *) {
+                return .spin(.medium)
+            } else {
+                return .spin(.gray)
+            }
         case .custom:
             guard let image = options?.icon ?? UIImage.init(named: "swift") else {
                 throw TingError.invalidSystemName
@@ -203,7 +209,6 @@ enum ToastPosition: String, CaseIterable {
 enum AlertPreset: String, CaseIterable {
     case done
     case error
-    case heart
     case spinner
     case custom
     
@@ -211,8 +216,6 @@ enum AlertPreset: String, CaseIterable {
         switch self {
         case .error:
             return .error
-        case .heart:
-            return .heart
         case .spinner:
             return .spinner
         case .custom:

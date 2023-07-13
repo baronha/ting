@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import SPIndicator
 import UIKit
 import SPAlert
 

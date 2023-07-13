@@ -486,11 +486,9 @@ PODS:
     - React-perflogger (= 0.72.0)
   - SocketRocket (0.6.0)
   - SPAlert (4.2.0)
-  - SPIndicator (1.6.4)
-  - Ting (1.0.4):
+  - Ting (1.0.5):
     - React-Core
     - SPAlert (= 4.2.0)
-    - SPIndicator (= 1.6.4)
   - Yoga (1.14.0)
   - YogaKit (1.18.1):
     - Yoga (~> 1.14)
@@ -577,7 +575,6 @@ SPEC REPOS:
     - OpenSSL-Universal
     - SocketRocket
     - SPAlert
-    - SPIndicator
     - YogaKit
 
 EXTERNAL SOURCES:
@@ -716,8 +713,7 @@ SPEC CHECKSUMS:
   ReactCommon: 517b45ed311ba9146aa8b55a8ef6617425f7448e
   SocketRocket: fccef3f9c5cedea1353a9ef6ada904fde10d6608
   SPAlert: 735da1f16a887e294719217572ce1f936d8c8782
-  SPIndicator: 93e0a4fb23de51294ac48e874c0f081a5e293e4f
-  Ting: b15f994db486a0b86668007a65e52a34677a6d20
+  Ting: 24912a67ef2c5a88fcf3b62d1b42960b1a342838
   Yoga: 1d6727ed193122f6adaf435c3de1a768326ff83b
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 

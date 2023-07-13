@@ -42,7 +42,6 @@ export function toast(options: ToastOptions): void {
 
 export function alert(options: AlertOptions): void {
   convertIconFile(options);
-  console.log('Ting: ', Ting);
   Ting.alert(options);
 }
 

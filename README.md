@@ -165,10 +165,11 @@ alert({
 
 ### Icon
 
-| icon   |  Type  | Default value | Platform |
-| ------ | :----: | :-----------: | :------: |
-| `uri`  | string |     null      | ![Both]  |
-| `size` | number |     null      | ![Both]  |
+| icon        |  Type  | Default value | Platform |
+| ----------- | :----: | :-----------: | :------: |
+| `uri`       | string |     null      | ![Both]  |
+| `size`      | number |     null      | ![Both]  |
+| `tintColor` | string |     null      | ![Both]  |
 
 ## To Do
 

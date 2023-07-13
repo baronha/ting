@@ -16,11 +16,15 @@ open class TingModule: NSObject {
     static var toastView: SPIndicatorView? = nil;
     static var alertView: SPAlertView? = nil;
     
+    static var toastOptionInit: NSDictionary = [:]
+    static var alertOptionInit: NSDictionary = [:]
+    
     @objc(toast:)
     public static func toast(toastOption: NSDictionary) -> Void {
         var preset: SPIndicatorIconPreset?
         
-        let options: ToastOptions = ToastOptions(options: toastOption)
+        let optionInit = mergeOptionInit(dictionary: toastOptionInit, optionDict: toastOption)
+        let options: ToastOptions = ToastOptions(options: optionInit)
         
         do {
             preset = try options.preset.onPreset(options)
@@ -29,7 +33,7 @@ open class TingModule: NSObject {
         }
         
         DispatchQueue.main.async {
-            toastView?.dismiss() // Dismiss old alert before show new toast
+            toastView?.dismiss() // Dismiss old toast before show new toast
             
             toastView = (preset != nil) ? SPIndicatorView(title: options.title, message: options.message, preset: preset ?? .done):  SPIndicatorView(title: options.title, message: options.message)
             
@@ -63,12 +67,13 @@ open class TingModule: NSObject {
     public static func alert(alertOption: NSDictionary) -> Void {
         var preset: SPAlertIconPreset?
         
-        let options: AlertOptions = AlertOptions(options: alertOption)
+        let optionInit = mergeOptionInit(dictionary: alertOptionInit, optionDict: alertOption)
+        let options: AlertOptions = AlertOptions(options: optionInit)
         
         do {
             preset = try options.preset.onPreset(options)
         } catch {
-            print("Ting error: \(error)")
+            print("Ting Alert error: \(error)")
         }
         
         DispatchQueue.main.async {
@@ -103,10 +108,32 @@ open class TingModule: NSObject {
                 }
                 
                 alertView!.present(
-                    haptic: options.haptic.toSPAlertHaptic())
+                    haptic: options.haptic.toSPAlertHaptic()
+                )
                 
                 setBackgroundColor(parentView: alertView, backgroundColor: options.backgroundColor ?? nil)
             }
+        }
+    }
+    
+    static func mergeOptionInit(dictionary: NSDictionary, optionDict: NSDictionary) -> NSDictionary {
+        let mergedDict = NSMutableDictionary(dictionary: dictionary)
+        mergedDict.addEntries(from: optionDict as! [AnyHashable: Any])
+        let option = NSDictionary(dictionary: mergedDict)
+        
+        return option
+    }
+    
+    
+    @objc(setup:)
+    public static func setup(initOptions: NSDictionary) -> Void {
+        if let toastOption = initOptions["toast"] as? NSDictionary {
+            toastOptionInit = NSDictionary(dictionary: toastOption)
+
+        }
+        
+        if let alertOption = initOptions["alert"] as? NSDictionary {
+            alertOptionInit = NSDictionary(dictionary: alertOption)
         }
     }
     
@@ -133,6 +160,7 @@ func setBackdrop(alertView:  SPAlertView,  options: NSDictionary) -> Void {
     windowView!.insertSubview(view, at: 1)
     
 }
+
 
 func setBackgroundColor(parentView: UIView?, backgroundColor: UIColor?) -> Void {
     if(parentView != nil && backgroundColor != nil){

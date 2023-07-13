@@ -49,3 +49,12 @@ export function alert(options: AlertOptions): void {
 export function dismissAlert(): void {
   Ting.dismissAlert();
 }
+
+export function setup(options: {
+  alert?: AlertOptions;
+  toast?: ToastOptions;
+}): void {
+  convertIconFile(options?.alert as AlertOptions);
+  convertIconFile(options?.toast as ToastOptions);
+  return Ting.setup(options);
+}

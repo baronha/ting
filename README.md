@@ -16,7 +16,7 @@
 ## Video Demo 📺
 
 | ![ios]                                                                                               | ![android]                                                                                           | Modal                                                                                                |
-|------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------|
+| ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
 | <video src="https://github.com/baronha/ting/assets/23580920/15f5677a-d041-499b-99e8-75c9c9c511c9" /> | <video src="https://github.com/baronha/ting/assets/23580920/751a7559-0150-46a2-a573-b2b3423e6e29" /> | <video src="https://github.com/baronha/ting/assets/23580920/b5f4d555-8fb1-4ffe-901c-268099f16f03" /> |
 
 ## Installation
@@ -26,6 +26,7 @@ yarn add @baronha/ting
 or
 npm i @baronha/ting
 ```
+
 > If you want to use Expo. [Burnt](https://github.com/nandorojo/burnt) is the solution for you.
 
 ### [![iOS][iOS]][iOS-URL]
@@ -64,8 +65,8 @@ import { toast } from '@baronha/ting';
 // ...
 const options = {
   // ...
-  title: "Vietnamese Gangz 😎",
-  message: "Anh em tao là Vietnamese Gangz",
+  title: 'Vietnamese Gangz 😎',
+  message: 'Anh em tao là Vietnamese Gangz',
   titleColor: '#D60A2E',
   icon: {
     uri: require('./vietnam.png'), // or remote
@@ -89,33 +90,86 @@ const options = {
 alert(options); // easy to use
 ```
 
+### Initialization
+
+Instead of using too many options like this:
+
+```js
+const options = {
+  // ...
+  messageColor: '#D60A2E',
+  titleColor: '#D60A2E',
+  icon: {
+    uri: require('./vietnam.png'), // or remote
+    size: 24,
+  },
+  shouldDismissByTap: true,
+  position: 'bottom',
+  // ... bla bla bla
+};
+
+toast(options);
+```
+
+You want to initialize the default options for all subsequent use of toast or alert. You can use the setup function that is called when the application is initialized. Do the following:
+
+```js
+import { setup } from '@baronha/ting';
+
+const initOption = {
+  toast: {
+    messageColor: '#D60A2E',
+    titleColor: '#D60A2E',
+    backgroundColor: '#ffffff',
+    // ... more and more
+  },
+  alert: {
+    // ... alert's option
+  },
+};
+
+setup(initOption);
+
+// Use it next time. You can completely override it on subsequent calls
+toast({
+  title: 'Ting!',
+  message: 'Easy toast for React Native',
+});
+
+alert({
+  title: "What's up bruhhh!",
+  message: 'Easy Alert for React Native',
+});
+```
+
 ## Options
 
 | Property              |   Type   | Default value |  Platform  | Toast | Alert | Description                                                                                 |
-|-----------------------|:--------:|:-------------:|:----------:|:-----:|:-----:|:--------------------------------------------------------------------------------------------|
-| `title`               |  string  |     null      |  ![Both]   |   ✅   |   ✅   |                                                                                             |
-| `message`             |  string  |     null      |  ![Both]   |   ✅   |   ✅   |                                                                                             |
-| `titleColor`          |  string  |     null      |  ![Both]   |   ✅   |   ✅   | The color of the title text in hexadecimal format (e.g., #FF0000)                           |
-| `messageColor`        |  string  |     null      |  ![Both]   |   ✅   |   ✅   | The color of the message text in hexadecimal format (e.g., #00FF00)                         |
-| `icon`                | `object` |     null      |  ![Both]   |   ✅   |   ✅   | See [Icon](###Icon)                                                                         |
-| `preset`              |  string  |    `done`     |  ![Both]   |   ✅   |   ✅   | **Toast**: `done, error, none`.<br/>**Alert**: `done, error, none, spinner`                 |
-| `duration`            |  number  |      `3`      |  ![Both]   |   ✅   |   ✅   | The lifetime of the toast (seconds)                                                         |
-| `titleColor`          |  string  |     null      |  ![Both]   |   ✅   |   ✅   |                                                                                             |
-| `shouldDismissByDrag` | boolean  |     true      |  ![Both]   |   ✅   |       | The behavior on `Android` is click                                                          |
-| `position`            |  string  |     `top`     |  ![Both]   |   ✅   |       | **Toast** is displayed from `top` or `bottom`                                               |
-| `haptic`              |  string  |     null      |   ![iOS]   |   ✅   |       | `success, warning, error, none`                                                             |
-| `shouldDismissByTap`  | boolean  |     true      |  ![Both]   |       |   ✅   |                                                                                             |
-| `borderRadius`        |  number  |     null      |  ![Both]   |       |   ✅   |                                                                                             |
-| `blurBackdrop`        |  number  |     null      | ![Android] |       |   ✅   |                                                                                             |
-| `backdropOpacity`     |  number  |     null      | ![Android] |       |   ✅   |                                                                                             |
-| `backgroundColor`     |  string  |    #ffffff    |  ![Both]   |   ✅   |   ✅   | The background color of the toast in hexadecimal format (e.g., #0000FF) <br/>![New_Feature] |
+| --------------------- | :------: | :-----------: | :--------: | :---: | :---: | :------------------------------------------------------------------------------------------ |
+| `title`               |  string  |     null      |  ![Both]   |  ✅   |  ✅   |                                                                                             |
+| `message`             |  string  |     null      |  ![Both]   |  ✅   |  ✅   |                                                                                             |
+| `titleColor`          |  string  |     null      |  ![Both]   |  ✅   |  ✅   | The color of the title text in hexadecimal format (e.g., #FF0000)                           |
+| `messageColor`        |  string  |     null      |  ![Both]   |  ✅   |  ✅   | The color of the message text in hexadecimal format (e.g., #00FF00)                         |
+| `icon`                | `object` |     null      |  ![Both]   |  ✅   |  ✅   | See [Icon](###Icon)                                                                         |
+| `preset`              |  string  |    `done`     |  ![Both]   |  ✅   |  ✅   | **Toast**: `done, error, none`.<br/>**Alert**: `done, error, none, spinner`                 |
+| `duration`            |  number  |      `3`      |  ![Both]   |  ✅   |  ✅   | The lifetime of the toast (seconds)                                                         |
+| `titleColor`          |  string  |     null      |  ![Both]   |  ✅   |  ✅   |                                                                                             |
+| `shouldDismissByDrag` | boolean  |     true      |  ![Both]   |  ✅   |       | The behavior on `Android` is click                                                          |
+| `position`            |  string  |     `top`     |  ![Both]   |  ✅   |       | **Toast** is displayed from `top` or `bottom`                                               |
+| `haptic`              |  string  |     null      |   ![iOS]   |  ✅   |       | `success, warning, error, none`                                                             |
+| `shouldDismissByTap`  | boolean  |     true      |  ![Both]   |       |  ✅   |                                                                                             |
+| `borderRadius`        |  number  |     null      |  ![Both]   |       |  ✅   |                                                                                             |
+| `blurBackdrop`        |  number  |     null      | ![Android] |       |  ✅   |                                                                                             |
+| `backdropOpacity`     |  number  |     null      | ![Android] |       |  ✅   |                                                                                             |
+| `backgroundColor`     |  string  |    #ffffff    |  ![Both]   |  ✅   |  ✅   | The background color of the toast in hexadecimal format (e.g., #0000FF) <br/>![New_Feature] |
 
 ### Icon
 
-| icon   |  Type  | Default value | Platform |
-|--------|:------:|:-------------:|:--------:|
-| `uri`  | string |     null      | ![Both]  |
-| `size` | number |     null      | ![Both]  |
+| icon        |  Type  | Default value | Platform |
+| ----------- | :----: | :-----------: | :------: |
+| `uri`       | string |     null      | ![Both]  |
+| `size`      | number |     null      | ![Both]  |
+| `tintColor` | string |     null      | ![Both]  |
 
 ## To Do
 
@@ -129,17 +183,16 @@ alert(options); // easy to use
 
 We're trying to improve performance. If you have a better solution, please open a [issue](https://github.com/baronha/ting/issues) or [pull request](https://github.com/baronha/ting/pulls). Best regards!
 
-
 ## Contributing
 
 See the [contributing guide](CONTRIBUTING.md) to learn how to contribute to the repository and the development workflow.
 
 ## License
+
 MIT
 [AlertKit](https://github.com/sparrowcode/AlertKit/blob/v5/LICENSE)
 [SPIndicator](https://github.com/ivanvorobei/SPIndicator/blob/main/LICENSE)
 [EasyWindow](https://github.com/getActivity/EasyWindow/blob/master/LICENSE)
-
 
 <!-- Badge for README -->
 

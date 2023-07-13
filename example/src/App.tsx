@@ -160,14 +160,12 @@ const DATA: ItemType[] = [
     onPress: () =>
       toast({
         duration: 10,
-        backgroundColor: '#333333',
-        messageColor: '#ffffff',
+
         title: 'Việt Nam',
         titleColor: '#ffffff',
         message: 'Vietnamese Gangz 🇻🇳',
         icon: {
           uri: image.vietnam,
-          tintColor: '#FFCDCD',
         },
       }),
   },

@@ -21,6 +21,10 @@ RCT_REMAP_METHOD(dismissAlert, oldDismissAlert)
   [self dismissAlert];
 }
 
+RCT_REMAP_METHOD(setup, oldSetup:(NSDictionary *)options)
+{
+  [self setup:options];
+}
 
 // Don't compile this code when we build for the old architecture.
 #ifdef RCT_NEW_ARCH_ENABLED
@@ -39,8 +43,8 @@ RCT_REMAP_METHOD(dismissAlert, oldDismissAlert)
     [TingModule alert:options];
 }
 
-- (void)initialize:(NSDictionary *)options {
-    [TingModule initialize:options];
+- (void)setup:(NSDictionary *)options {
+    [TingModule setup:options];
 }
 
 - (void)dismissAlert {

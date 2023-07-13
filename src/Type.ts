@@ -5,7 +5,7 @@ export interface Icon {
 }
 
 export interface ToastOptions {
-  title: string;
+  title?: string;
   message?: string;
   titleColor?: string;
   messageColor?: string;
@@ -41,7 +41,7 @@ export interface ToastOptions {
 }
 
 export interface AlertOptions {
-  title: string;
+  title?: string;
   message?: string;
   titleColor?: string;
   messageColor?: string;

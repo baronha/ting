@@ -16,15 +16,16 @@ open class TingModule: NSObject {
     static var toastView: SPIndicatorView? = nil;
     static var alertView: SPAlertView? = nil;
     
-    static var toastOptionInit: NSMutableDictionary? = nil
-    static var alertOptionInit: NSMutableDictionary? = nil
+    static var toastOptionInit: NSDictionary = [:]
+    static var alertOptionInit: NSDictionary = [:]
     
     @objc(toast:)
     public static func toast(toastOption: NSDictionary) -> Void {
         var preset: SPIndicatorIconPreset?
         
-        
-        let options: ToastOptions = ToastOptions(options: toastOption)
+        let optionInit = mergeOptionInit(dictionary: toastOptionInit, optionDict: toastOption)
+        print("optionInit: ", optionInit)
+        let options: ToastOptions = ToastOptions(options: optionInit)
         
         do {
             preset = try options.preset.onPreset(options)
@@ -67,7 +68,8 @@ open class TingModule: NSObject {
     public static func alert(alertOption: NSDictionary) -> Void {
         var preset: SPAlertIconPreset?
         
-        let options: AlertOptions = AlertOptions(options: alertOption)
+        let optionInit = mergeOptionInit(dictionary: alertOptionInit, optionDict: alertOption)
+        let options: AlertOptions = AlertOptions(options: optionInit)
         
         do {
             preset = try options.preset.onPreset(options)
@@ -107,22 +109,32 @@ open class TingModule: NSObject {
                 }
                 
                 alertView!.present(
-                    haptic: options.haptic.toSPAlertHaptic())
+                    haptic: options.haptic.toSPAlertHaptic()
+                )
                 
                 setBackgroundColor(parentView: alertView, backgroundColor: options.backgroundColor ?? nil)
             }
         }
     }
     
+    static func mergeOptionInit(dictionary: NSDictionary, optionDict: NSDictionary) -> NSDictionary {
+        let mergedDict = NSMutableDictionary(dictionary: dictionary)
+        mergedDict.addEntries(from: optionDict as! [AnyHashable: Any])
+        let option = NSDictionary(dictionary: mergedDict)
+        
+        return option
+    }
     
-    @objc(initialize:)
-    public static func initialize(initOptions: NSDictionary) -> Void {
+    
+    @objc(setup:)
+    public static func setup(initOptions: NSDictionary) -> Void {
         if let toastOption = initOptions["toast"] as? NSDictionary {
-            toastOptionInit = NSMutableDictionary(dictionary: toastOption)
+            toastOptionInit = NSDictionary(dictionary: toastOption)
+
         }
         
         if let alertOption = initOptions["alert"] as? NSDictionary {
-//            alertOptionInit = NSMutableDictionary(dictionary: alertOption)
+            alertOptionInit = NSDictionary(dictionary: alertOption)
         }
     }
     

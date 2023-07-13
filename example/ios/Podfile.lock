@@ -487,10 +487,10 @@ PODS:
   - SocketRocket (0.6.0)
   - SPAlert (4.2.0)
   - SPIndicator (1.6.4)
-  - Ting (1.0.3):
+  - Ting (1.0.4):
     - React-Core
-    - SPAlert
-    - SPIndicator
+    - SPAlert (= 4.2.0)
+    - SPIndicator (= 1.6.4)
   - Yoga (1.14.0)
   - YogaKit (1.18.1):
     - Yoga (~> 1.14)
@@ -717,7 +717,7 @@ SPEC CHECKSUMS:
   SocketRocket: fccef3f9c5cedea1353a9ef6ada904fde10d6608
   SPAlert: 735da1f16a887e294719217572ce1f936d8c8782
   SPIndicator: 93e0a4fb23de51294ac48e874c0f081a5e293e4f
-  Ting: 45528b1338b1f79d390043a95a8b49426b95f271
+  Ting: b15f994db486a0b86668007a65e52a34677a6d20
   Yoga: 1d6727ed193122f6adaf435c3de1a768326ff83b
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 

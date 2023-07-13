@@ -1,4 +1,4 @@
-![Logo][Logo]![1.0.4](https://img.shields.io/badge/⚡️_1.0.4-333333?style=for-the-badge)
+![Logo][Logo]![1.0.5](https://img.shields.io/badge/⚡️_1.0.5-333333?style=for-the-badge)
 [![BuyMeACoffee][BuyMeACoffee]][BuyMeACoffee-URL] [![Kofi][Kofi]][Kofi-URL]
 
 <p align="center">

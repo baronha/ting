@@ -1,6 +1,6 @@
 {
   "name": "@baronha/ting",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "test",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",

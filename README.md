@@ -173,11 +173,13 @@ alert({
 
 ## To Do
 
-- [ ] `shouldDismissByDrag` on **Android**
-- [ ] `callback`
 - [x] Initialize for the first time
 - [x] `tintColor` for icon
 - [x] `backgroundColor`
+- [ ] `spinner preset for toast`
+- [ ] `shouldDismissByDrag` on **Android**
+- [ ] `callback`
+
 
 ## Performance
 

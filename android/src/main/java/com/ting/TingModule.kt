@@ -256,8 +256,6 @@ class TingModule internal constructor(context: ReactApplicationContext) : TingSp
       avd.start()
     }, 300)
   }
-
-
 }
 
 fun isNumber(value: Any?): Boolean {

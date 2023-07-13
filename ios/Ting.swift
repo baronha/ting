@@ -24,7 +24,6 @@ open class TingModule: NSObject {
         var preset: SPIndicatorIconPreset?
         
         let optionInit = mergeOptionInit(dictionary: toastOptionInit, optionDict: toastOption)
-        print("optionInit: ", optionInit)
         let options: ToastOptions = ToastOptions(options: optionInit)
         
         do {
@@ -74,7 +73,7 @@ open class TingModule: NSObject {
         do {
             preset = try options.preset.onPreset(options)
         } catch {
-            print("Ting error: \(error)")
+            print("Ting Alert error: \(error)")
         }
         
         DispatchQueue.main.async {

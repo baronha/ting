@@ -175,8 +175,8 @@ alert({
 
 - [ ] `shouldDismissByDrag` on **Android**
 - [ ] `callback`
-- [ ] Initialize for the first time
-- [ ] `tintColor` for icon
+- [x] Initialize for the first time
+- [x] `tintColor` for icon
 - [x] `backgroundColor`
 
 ## Performance

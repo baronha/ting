@@ -185,6 +185,18 @@ const DATA: ItemType[] = [
       }),
   },
   {
+    title: 'SPINNER',
+    backgroundColor: '#D7BBF5',
+    subTitle: `preset = 'spinner'`,
+    icon: image.cactus,
+    onPress: () =>
+      toast({
+        title: 'Đáy xã hội',
+        message: 'Chờ xíu',
+        preset: 'spinner',
+      }),
+  },
+  {
     title: 'ALERT DONE',
     backgroundColor: '#F4FECC',
     icon: image.clapping,

@@ -41,7 +41,7 @@ class TingModule internal constructor(context: ReactApplicationContext) : TingSp
     // get container View
     val options = toastOptionInit?.let { mergeMaps(it, RNOptions) } ?: RNOptions
 
-    val container = getContainerView(R.layout.toast, options)
+    val container = getContainerView(R.layout.toast, options, "toast")
     val duration: Int = getDuration(options)
 
     var toastAnim = R.style.ToastTopAnim
@@ -79,7 +79,7 @@ class TingModule internal constructor(context: ReactApplicationContext) : TingSp
   override fun alert(RNOptions: ReadableMap) {
     val options = alertOptionInit?.let { mergeMaps(it, RNOptions) } ?: RNOptions
 
-    val container = getContainerView(R.layout.alert, options)
+    val container = getContainerView(R.layout.alert, options, "alert")
     val duration: Int = getDuration(options)
     val blurBackdrop: Int =
       if (options.hasKey("blurBackdrop")) options.getInt("blurBackdrop") else 0
@@ -113,7 +113,7 @@ class TingModule internal constructor(context: ReactApplicationContext) : TingSp
 
   @ReactMethod
   override fun dismissAlert() {
-    if (alertWindow != null && alertWindow.isShowing) {
+    if (alertWindow.isShowing) {
       runOnUiThread {
         alertWindow.cancel()
       }
@@ -133,7 +133,11 @@ class TingModule internal constructor(context: ReactApplicationContext) : TingSp
     return if (options.hasKey("duration")) (options.getInt("duration") * 1000) else 3000
   }
 
-  private fun getContainerView(view: Int, options: ReadableMap): LinearLayout {
+  private fun getContainerView(
+    view: Int,
+    options: ReadableMap,
+    contentType: String?
+  ): LinearLayout {
     val inflater = LayoutInflater.from(context)
     val container = inflater.inflate(
       view, null
@@ -196,14 +200,19 @@ class TingModule internal constructor(context: ReactApplicationContext) : TingSp
           iconView.setImageResource(R.drawable.error)
         }
 
-        // for alert view
         "spinner" -> {
           val progressBar = ProgressBar(context)
+          val progressSize: LinearLayout.LayoutParams =
+            if (contentType == "toast") LinearLayout.LayoutParams(
+              convertInt2Size(24),
+              convertInt2Size(24)
+            ) else LinearLayout.LayoutParams(
+              LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT
+            )
+
           iconView.visibility = ImageView.GONE
           progressBar.id = R.id.loading_spinner
-          progressBar.layoutParams = LinearLayout.LayoutParams(
-            LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT
-          )
+          progressBar.layoutParams = progressSize
           container.addView(progressBar, 0)
         }
 

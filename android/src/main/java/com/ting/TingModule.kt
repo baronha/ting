@@ -1,14 +1,12 @@
 package com.ting
 
 import android.content.Context
-import android.content.res.ColorStateList
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
+import android.graphics.PorterDuff
 import android.graphics.drawable.AnimatedVectorDrawable
-import android.graphics.drawable.ColorDrawable
-import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.os.Handler
 import android.os.Looper
@@ -18,10 +16,12 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
+import com.facebook.react.bridge.Arguments.createMap
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactMethod
 import com.facebook.react.bridge.ReadableMap
 import com.facebook.react.bridge.UiThreadUtil.runOnUiThread
+import com.facebook.react.bridge.WritableMap
 import com.hjq.window.EasyWindow
 import java.io.IOException
 import java.net.URL
@@ -33,10 +33,14 @@ class TingModule internal constructor(context: ReactApplicationContext) : TingSp
   private var context: Context = context
   private val alertWindow = EasyWindow<EasyWindow<*>>(currentActivity)
   private val toastWindow = EasyWindow<EasyWindow<*>>(currentActivity)
+  private var toastOptionInit: ReadableMap? = null
+  private var alertOptionInit: ReadableMap? = null
 
   @ReactMethod
-  override fun toast(options: ReadableMap) {
+  override fun toast(RNOptions: ReadableMap) {
     // get container View
+    val options = toastOptionInit?.let { mergeMaps(it, RNOptions) } ?: RNOptions
+
     val container = getContainerView(R.layout.toast, options)
     val duration: Int = getDuration(options)
 
@@ -72,7 +76,9 @@ class TingModule internal constructor(context: ReactApplicationContext) : TingSp
   }
 
   @ReactMethod
-  override fun alert(options: ReadableMap) {
+  override fun alert(RNOptions: ReadableMap) {
+    val options = alertOptionInit?.let { mergeMaps(it, RNOptions) } ?: RNOptions
+
     val container = getContainerView(R.layout.alert, options)
     val duration: Int = getDuration(options)
     val blurBackdrop: Int =
@@ -90,7 +96,7 @@ class TingModule internal constructor(context: ReactApplicationContext) : TingSp
         setDuration(duration)
         contentView = container
         setAnimStyle(R.style.AlertAnim)
-        setOutsideTouchable(false)
+        setOutsideTouchable(true)
         setGravity(Gravity.CENTER)
         setBlurBehindRadius(blurBackdrop)
         setBackgroundDimAmount(backdropOpacity.toFloat())
@@ -112,6 +118,15 @@ class TingModule internal constructor(context: ReactApplicationContext) : TingSp
         alertWindow.cancel()
       }
     }
+  }
+
+  @ReactMethod
+  override fun setup(options: ReadableMap) {
+    val toastOption = options.getMap("toast")
+    val alertOption = options.getMap("alert")
+    if (toastOption != null) toastOptionInit = toastOption
+    if (alertOption != null) alertOptionInit = alertOption
+
   }
 
   private fun getDuration(options: ReadableMap): Int {
@@ -140,9 +155,8 @@ class TingModule internal constructor(context: ReactApplicationContext) : TingSp
     // icon options
     val icon = options?.getMap("icon")
     val iconURI = icon?.getString("uri")
-    val iconSize = if (icon?.hasKey("size") == true) icon.getInt("size") else null
-    // set container style
 
+    // set container style
     val background = container.background as GradientDrawable
 
     if (isNumber(borderRadius)) {
@@ -153,7 +167,7 @@ class TingModule internal constructor(context: ReactApplicationContext) : TingSp
     if (backgroundColor != null) {
       val color = intArrayOf(parseColor(backgroundColor), parseColor(backgroundColor))
       background.colors = color
-    }else{
+    } else {
       val color = intArrayOf(Color.WHITE, Color.WHITE)
       background.colors = color
     }
@@ -205,11 +219,18 @@ class TingModule internal constructor(context: ReactApplicationContext) : TingSp
       val bitmap = loadBitmapFromUri(iconURI)
       if (bitmap != null) {
         iconView.setImageBitmap(bitmap)
+        val iconSize = if (icon?.hasKey("size") == true) icon.getInt("size") else null
+        val tintColor = if (icon?.hasKey("tintColor") == true) icon.getString("tintColor") else null
+
         if (isNumber(iconSize)) {
           val size = convertInt2Size(iconSize)
 
           iconView.layoutParams.width = size
           iconView.layoutParams.height = size
+        }
+        if (tintColor != null) {
+          val color = parseColor(tintColor)
+          iconView.setColorFilter(color, PorterDuff.Mode.SRC_IN)
         }
       } else {
         loadDoneIcon(iconView)
@@ -270,4 +291,11 @@ fun loadBitmapFromUri(imageUri: String): Bitmap? {
     e.printStackTrace()
   }
   return bitmap
+}
+
+fun mergeMaps(map1: ReadableMap, map2: ReadableMap): WritableMap {
+  val mergedMap: WritableMap = createMap()
+  mergedMap.merge(map1)
+  mergedMap.merge(map2)
+  return mergedMap
 }

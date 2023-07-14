@@ -161,7 +161,7 @@ alert({
 | `borderRadius`        |  number  |     null      |  ![Both]   |       |  ✅   |                                                                                             |
 | `blurBackdrop`        |  number  |     null      | ![Android] |       |  ✅   |                                                                                             |
 | `backdropOpacity`     |  number  |     null      | ![Android] |       |  ✅   |                                                                                             |
-| `backgroundColor`     |  string  |    #ffffff    |  ![Both]   |  ✅   |  ✅   | The background color of the toast in hexadecimal format (e.g., #0000FF) <br/>![New_Feature] |
+| `backgroundColor`     |  string  |    #ffffff    |  ![Both]   |  ✅   |  ✅   | The background color of the toast in hexadecimal format (e.g., #0000FF) <br/> |
 
 ### Icon
 
@@ -173,10 +173,10 @@ alert({
 
 ## To Do
 
-- [x] Initialize for the first time
-- [x] `tintColor` for icon
-- [x] `backgroundColor`
-- [x] `spinner preset for toast`
+- [x] Initialize for the first time (v.1.0.5)
+- [x] `tintColor` for icon (v.1.0.5)
+- [x] `backgroundColor` (v.1.0.3)
+- [x] `spinner preset for toast` (v.1.1.0)
 - [ ] custom color like StyleSheet (e.g. `#fff`, `red`, `rgba(0, 0, 0, .8)`)
 - [ ] `shouldDismissByDrag` on **Android**
 - [ ] `callback`

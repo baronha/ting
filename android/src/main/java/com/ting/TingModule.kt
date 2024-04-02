@@ -6,12 +6,16 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
 import android.graphics.drawable.AnimatedVectorDrawable
 import android.graphics.drawable.GradientDrawable
 import android.os.Handler
 import android.os.Looper
+import android.view.GestureDetector
 import android.view.Gravity
 import android.view.LayoutInflater
+import android.view.MotionEvent
+import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
@@ -25,6 +29,7 @@ import com.facebook.react.bridge.WritableMap
 import com.hjq.window.EasyWindow
 import java.io.IOException
 import java.net.URL
+import kotlin.math.abs
 import kotlin.math.roundToInt
 
 
@@ -37,9 +42,9 @@ class TingModule internal constructor(context: ReactApplicationContext) : TingSp
   private var alertOptionInit: ReadableMap? = null
 
   @ReactMethod
-  override fun toast(RNOptions: ReadableMap) {
+  override fun toast(rnOptions: ReadableMap) {
     // get container View
-    val options = toastOptionInit?.let { mergeMaps(it, RNOptions) } ?: RNOptions
+    val options = toastOptionInit?.let { mergeMaps(it, rnOptions) } ?: rnOptions
 
     val container = getContainerView(R.layout.toast, options, "toast")
     val duration: Int = getDuration(options)
@@ -65,19 +70,46 @@ class TingModule internal constructor(context: ReactApplicationContext) : TingSp
         setYOffset(48)
         setAnimStyle(toastAnim)
         setOutsideTouchable(true)
-        setOnClickListener(R.id.toast,
-          EasyWindow.OnClickListener { toast: EasyWindow<*>, _: LinearLayout? ->
-            val shouldDismissByTap =
-              if (options.hasKey("shouldDismissByDrag")) options.getBoolean("shouldDismissByDrag") else true
-            if (shouldDismissByTap) toast.cancel()
-          })
+
+        if (options.hasKey("shouldDismissByDrag") && options.getBoolean("shouldDismissByDrag")) {
+          // Define dragThreshold in density-independent pixels (dp)
+          val dragThresholdDP = 12
+          val scale = context.resources.displayMetrics.density
+          val dragThreshold = (dragThresholdDP * scale + 0.5f).toInt()
+
+          // Add drag gesture recognizer
+          contentView?.let { contentView ->
+            val gestureDetector = GestureDetector(context, object : GestureDetector.SimpleOnGestureListener() {
+              override fun onScroll(e1: MotionEvent, e2: MotionEvent, distanceX: Float, distanceY: Float): Boolean {
+                // Check if the user scrolls vertically and dismiss the toast window if needed
+                if (abs(distanceY) > abs(distanceX)) {
+                  if (position == Gravity.TOP && distanceY > dragThreshold) { // Dismiss upward if toast is at the top
+                    toastWindow.cancel()
+                    return true
+                  } else if (position == Gravity.BOTTOM && distanceY < -dragThreshold) { // Dismiss downward if toast is at the bottom
+                    toastWindow.cancel()
+                    return true
+                  }
+                }
+
+                return super.onScroll(e1, e2, distanceX, distanceY)
+              }
+            })
+
+            contentView.setOnTouchListener(fun(_: View, event: MotionEvent): Boolean {
+              gestureDetector.onTouchEvent(event)
+              return true // Consume the touch event
+            })
+          }
+        }
+
       }.show()
     }
   }
 
   @ReactMethod
-  override fun alert(RNOptions: ReadableMap) {
-    val options = alertOptionInit?.let { mergeMaps(it, RNOptions) } ?: RNOptions
+  override fun alert(rnOptions: ReadableMap) {
+    val options = alertOptionInit?.let { mergeMaps(it, rnOptions) } ?: rnOptions
 
     val container = getContainerView(R.layout.alert, options, "alert")
     val duration: Int = getDuration(options)
@@ -147,6 +179,7 @@ class TingModule internal constructor(context: ReactApplicationContext) : TingSp
     val titleColor = options?.getString("titleColor")
     val message = options?.getString("message")
     val messageColor = options?.getString("messageColor")
+    val progressColor = options?.getString("progressColor")
     val preset = options?.getString("preset")
     val backgroundColor = options?.getString("backgroundColor")
     val borderRadius = if (options.hasKey("borderRadius")) options?.getInt("borderRadius") else null
@@ -213,6 +246,13 @@ class TingModule internal constructor(context: ReactApplicationContext) : TingSp
           iconView.visibility = ImageView.GONE
           progressBar.id = R.id.loading_spinner
           progressBar.layoutParams = progressSize
+
+          if (progressColor != null) {
+            val progressDrawable = progressBar.indeterminateDrawable.mutate()
+            progressDrawable.colorFilter = PorterDuffColorFilter(parseColor(progressColor), PorterDuff.Mode.SRC_IN)
+            progressBar.indeterminateDrawable = progressDrawable
+          }
+
           container.addView(progressBar, 0)
         }
 
@@ -271,14 +311,36 @@ fun isNumber(value: Any?): Boolean {
   return value != null && (value is Int || value is Long || value is Float || value is Double)
 }
 
-fun parseColor(hexColor: String): Int {
+fun parseColor(colorString: String): Int {
   val fallbackColor = Color.BLACK
-  val color = try {
-    Color.parseColor(hexColor)
-  } catch (e: IllegalArgumentException) {
-    fallbackColor
+  // Try parsing color as hex
+  if (colorString.startsWith("#")) {
+    return Color.parseColor(colorString)
   }
-  return color
+
+  // Try parsing color as named color
+  val namedColor = try {
+    Color::class.java.getField(colorString.uppercase()).get(null) as Int
+  } catch (e: Exception) {
+    null
+  }
+  if (namedColor != null) {
+    return namedColor
+  }
+
+  // Try parsing color as RGB or RGBA
+  val rgbRegex = Regex("""rgba?\((\d{1,3}), (\d{1,3}), (\d{1,3})(, (\d(\.\d)?))?\)""")
+  val rgbMatchResult = rgbRegex.matchEntire(colorString)
+  if (rgbMatchResult != null) {
+    val red = rgbMatchResult.groups[1]?.value?.toIntOrNull() ?: return fallbackColor
+    val green = rgbMatchResult.groups[2]?.value?.toIntOrNull() ?: return fallbackColor
+    val blue = rgbMatchResult.groups[3]?.value?.toIntOrNull() ?: return fallbackColor
+    val alpha = if (colorString.startsWith("rgb(")) 1.0f else rgbMatchResult.groups[5]?.value?.toFloatOrNull() ?: 1.0f
+    return Color.argb((alpha * 255).toInt(), red, green, blue)
+  }
+
+  // Return fallback color if parsing fails
+  return fallbackColor
 }
 
 fun convertInt2Size(number: Int?): Int {

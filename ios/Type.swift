@@ -27,14 +27,14 @@ class Options {
         self.title = option["title"] as? String ?? "Title"
         self.message = option["message"] as? String
         self.duration = option["duration"] as? TimeInterval ?? 3
-        self.backgroundColor = UIColor.hexStringToColor(option["backgroundColor"] as? String)
+        self.backgroundColor = UIColor.parseColor(option["backgroundColor"] as? String)
         
         if let messageColor = option["messageColor"] as? String {
-            self.messageColor = UIColor.hexStringToColor(messageColor)
+            self.messageColor = UIColor.parseColor(messageColor)
         }
         
         if let titleColor = option["titleColor"] as? String {
-            self.titleColor = UIColor.hexStringToColor(titleColor)
+            self.titleColor = UIColor.parseColor(titleColor)
         }
         
         // custom icon
@@ -53,7 +53,7 @@ class Options {
 func getCustomIcon(icon: NSDictionary) -> UIImage? {
     if let iconURI = icon["uri"] as? String {
         if let iconImage = getImage(icon: iconURI) {
-            let color = UIColor.hexStringToColor(icon["tintColor"] as? String)
+            let color = UIColor.parseColor(icon["tintColor"] as? String)
             if(color != nil){
                 return iconImage.getTintColor(color!)
             }

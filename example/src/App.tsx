@@ -160,7 +160,6 @@ const DATA: ItemType[] = [
     onPress: () =>
       toast({
         duration: 10,
-
         title: 'Việt Nam',
         titleColor: '#ffffff',
         message: 'Vietnamese Gangz 🇻🇳',
@@ -194,6 +193,8 @@ const DATA: ItemType[] = [
         title: 'Đáy xã hội',
         message: 'Chờ xíu',
         preset: 'spinner',
+        progressColor: '#FD966A',
+        shouldDismissByDrag: true,
       }),
   },
   {
@@ -254,6 +255,7 @@ const DATA: ItemType[] = [
         blurBackdrop: 20,
         backdropOpacity: 0.1,
         preset: 'spinner',
+        progressColor: '#FD966A',
       }),
   },
 ];

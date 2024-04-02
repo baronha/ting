@@ -38,6 +38,12 @@ export interface ToastOptions {
    *  Defaults to `null`.
    */
   icon?: Icon;
+
+  /**
+   * progress color for spinner preset
+   * @platform android
+   */
+  progressColor?: string;
 }
 
 export interface AlertOptions {
@@ -87,4 +93,10 @@ export interface AlertOptions {
    * custom icon
    */
   icon?: Icon;
+
+  /**
+   * progress color for spinner preset
+   * @platform android
+   */
+  progressColor?: string;
 }

@@ -6,6 +6,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
 import android.graphics.drawable.AnimatedVectorDrawable
 import android.graphics.drawable.GradientDrawable
 import android.os.Handler
@@ -147,6 +148,7 @@ class TingModule internal constructor(context: ReactApplicationContext) : TingSp
     val titleColor = options?.getString("titleColor")
     val message = options?.getString("message")
     val messageColor = options?.getString("messageColor")
+    val progressColor = options?.getString("progressColor")
     val preset = options?.getString("preset")
     val backgroundColor = options?.getString("backgroundColor")
     val borderRadius = if (options.hasKey("borderRadius")) options?.getInt("borderRadius") else null
@@ -213,6 +215,13 @@ class TingModule internal constructor(context: ReactApplicationContext) : TingSp
           iconView.visibility = ImageView.GONE
           progressBar.id = R.id.loading_spinner
           progressBar.layoutParams = progressSize
+
+          if (progressColor != null) {
+            val progressDrawable = progressBar.indeterminateDrawable.mutate()
+            progressDrawable.colorFilter = PorterDuffColorFilter(parseColor(progressColor), PorterDuff.Mode.SRC_IN)
+            progressBar.indeterminateDrawable = progressDrawable
+          }
+
           container.addView(progressBar, 0)
         }
 

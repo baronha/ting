@@ -154,7 +154,7 @@ alert({
 | `preset`              |  string  |    `done`     |  ![Both]   |  ✅   |  ✅   | `done, error, none, spinner`                 |
 | `duration`            |  number  |      `3`      |  ![Both]   |  ✅   |  ✅   | The lifetime of the toast (seconds)                                                         |
 | `titleColor`          |  string  |     null      |  ![Both]   |  ✅   |  ✅   |                                                                                             |
-| `shouldDismissByDrag` | boolean  |     true      |  ![Both]   |  ✅   |       | The behavior on `Android` is click                                                          |
+| `shouldDismissByDrag` | boolean  |     true      |  ![Both]   |  ✅   |
 | `position`            |  string  |     `top`     |  ![Both]   |  ✅   |       | **Toast** is displayed from `top` or `bottom`                                               |
 | `haptic`              |  string  |     null      |   ![iOS]   |  ✅   |       | `success, warning, error, none`                                                             |
 | `shouldDismissByTap`  | boolean  |     true      |  ![Both]   |       |  ✅   |                                                                                             |
@@ -178,7 +178,7 @@ alert({
 - [x] `backgroundColor` (v.1.0.3)
 - [x] `spinner preset for toast` (v.1.1.0)
 - [x] custom color like StyleSheet (e.g. `#fff`, `red`, `rgba(0, 0, 0, .8)`)
-- [ ] `shouldDismissByDrag` on **Android**
+- [x] `shouldDismissByDrag` on **Android**
 - [ ] `callback`
 
 

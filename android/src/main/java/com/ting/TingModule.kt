@@ -38,9 +38,9 @@ class TingModule internal constructor(context: ReactApplicationContext) : TingSp
   private var alertOptionInit: ReadableMap? = null
 
   @ReactMethod
-  override fun toast(RNOptions: ReadableMap) {
+  override fun toast(options: ReadableMap) {
     // get container View
-    val options = toastOptionInit?.let { mergeMaps(it, RNOptions) } ?: RNOptions
+    val options = toastOptionInit?.let { mergeMaps(it, options) } ?: options
 
     val container = getContainerView(R.layout.toast, options, "toast")
     val duration: Int = getDuration(options)
@@ -77,8 +77,8 @@ class TingModule internal constructor(context: ReactApplicationContext) : TingSp
   }
 
   @ReactMethod
-  override fun alert(RNOptions: ReadableMap) {
-    val options = alertOptionInit?.let { mergeMaps(it, RNOptions) } ?: RNOptions
+  override fun alert(options: ReadableMap) {
+    val options = alertOptionInit?.let { mergeMaps(it, options) } ?: options
 
     val container = getContainerView(R.layout.alert, options, "alert")
     val duration: Int = getDuration(options)
@@ -280,14 +280,36 @@ fun isNumber(value: Any?): Boolean {
   return value != null && (value is Int || value is Long || value is Float || value is Double)
 }
 
-fun parseColor(hexColor: String): Int {
+fun parseColor(colorString: String): Int {
   val fallbackColor = Color.BLACK
-  val color = try {
-    Color.parseColor(hexColor)
-  } catch (e: IllegalArgumentException) {
-    fallbackColor
+  // Try parsing color as hex
+  if (colorString.startsWith("#")) {
+    return Color.parseColor(colorString)
   }
-  return color
+
+  // Try parsing color as named color
+  val namedColor = try {
+    Color::class.java.getField(colorString.uppercase()).get(null) as Int
+  } catch (e: Exception) {
+    null
+  }
+  if (namedColor != null) {
+    return namedColor
+  }
+
+  // Try parsing color as RGB or RGBA
+  val rgbRegex = Regex("""rgba?\((\d{1,3}), (\d{1,3}), (\d{1,3})(, (\d(\.\d)?))?\)""")
+  val rgbMatchResult = rgbRegex.matchEntire(colorString)
+  if (rgbMatchResult != null) {
+    val red = rgbMatchResult.groups[1]?.value?.toIntOrNull() ?: return fallbackColor
+    val green = rgbMatchResult.groups[2]?.value?.toIntOrNull() ?: return fallbackColor
+    val blue = rgbMatchResult.groups[3]?.value?.toIntOrNull() ?: return fallbackColor
+    val alpha = if (colorString.startsWith("rgb(")) 1.0f else rgbMatchResult.groups[5]?.value?.toFloatOrNull() ?: 1.0f
+    return Color.argb((alpha * 255).toInt(), red, green, blue)
+  }
+
+  // Return fallback color if parsing fails
+  return fallbackColor
 }
 
 fun convertInt2Size(number: Int?): Int {

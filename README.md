@@ -190,6 +190,47 @@ We're trying to improve performance. If you have a better solution, please open 
 
 See the [contributing guide](CONTRIBUTING.md) to learn how to contribute to the repository and the development workflow.
 
+## Contributors ✨
+
+Thanks go to these wonderful people:
+
+<!-- readme: collaborators,contributors -start -->
+<table>
+	<tbody>
+		<tr>
+            <td align="center">
+                <a href="https://github.com/tuanngocptn">
+                    <img src="https://avatars.githubusercontent.com/u/22292704?v=4" width="100;" alt="tuanngocptn"/>
+                    <br />
+                    <sub><b>Nick - Ngoc Pham</b></sub>
+                </a>
+            </td>
+            <td align="center">
+                <a href="https://github.com/baronha">
+                    <img src="https://avatars.githubusercontent.com/u/23580920?v=4" width="100;" alt="baronha"/>
+                    <br />
+                    <sub><b>Bảo Hà.</b></sub>
+                </a>
+            </td>
+            <td align="center">
+                <a href="https://github.com/4cc3ssX">
+                    <img src="https://avatars.githubusercontent.com/u/57473799?v=4" width="100;" alt="4cc3ssX"/>
+                    <br />
+                    <sub><b>Ryam</b></sub>
+                </a>
+            </td>
+            <td align="center">
+                <a href="https://github.com/Acetyld">
+                    <img src="https://avatars.githubusercontent.com/u/55088242?v=4" width="100;" alt="Acetyld"/>
+                    <br />
+                    <sub><b>Dion Grendelman</b></sub>
+                </a>
+            </td>
+		</tr>
+	<tbody>
+</table>
+<!-- readme: collaborators,contributors -end -->
+
 ## License
 
 MIT

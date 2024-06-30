@@ -199,10 +199,10 @@ Thanks go to these wonderful people:
 	<tbody>
 		<tr>
             <td align="center">
-                <a href="https://github.com/tuanngocptn">
-                    <img src="https://avatars.githubusercontent.com/u/22292704?v=4" width="100;" alt="tuanngocptn"/>
+                <a href="https://github.com/4cc3ssX">
+                    <img src="https://avatars.githubusercontent.com/u/57473799?v=4" width="100;" alt="4cc3ssX"/>
                     <br />
-                    <sub><b>Nick - Ngoc Pham</b></sub>
+                    <sub><b>Ryam</b></sub>
                 </a>
             </td>
             <td align="center">
@@ -213,17 +213,17 @@ Thanks go to these wonderful people:
                 </a>
             </td>
             <td align="center">
-                <a href="https://github.com/4cc3ssX">
-                    <img src="https://avatars.githubusercontent.com/u/57473799?v=4" width="100;" alt="4cc3ssX"/>
-                    <br />
-                    <sub><b>Ryam</b></sub>
-                </a>
-            </td>
-            <td align="center">
                 <a href="https://github.com/Acetyld">
                     <img src="https://avatars.githubusercontent.com/u/55088242?v=4" width="100;" alt="Acetyld"/>
                     <br />
                     <sub><b>Dion Grendelman</b></sub>
+                </a>
+            </td>
+            <td align="center">
+                <a href="https://github.com/tuanngocptn">
+                    <img src="https://avatars.githubusercontent.com/u/22292704?v=4" width="100;" alt="tuanngocptn"/>
+                    <br />
+                    <sub><b>Nick - Ngoc Pham</b></sub>
                 </a>
             </td>
 		</tr>

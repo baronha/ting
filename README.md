@@ -199,13 +199,6 @@ Thanks go to these wonderful people:
 	<tbody>
 		<tr>
             <td align="center">
-                <a href="https://github.com/tuanngocptn">
-                    <img src="https://avatars.githubusercontent.com/u/22292704?v=4" width="100;" alt="tuanngocptn"/>
-                    <br />
-                    <sub><b>Nick - Ngoc Pham</b></sub>
-                </a>
-            </td>
-            <td align="center">
                 <a href="https://github.com/baronha">
                     <img src="https://avatars.githubusercontent.com/u/23580920?v=4" width="100;" alt="baronha"/>
                     <br />
@@ -224,6 +217,20 @@ Thanks go to these wonderful people:
                     <img src="https://avatars.githubusercontent.com/u/55088242?v=4" width="100;" alt="Acetyld"/>
                     <br />
                     <sub><b>Dion Grendelman</b></sub>
+                </a>
+            </td>
+            <td align="center">
+                <a href="https://github.com/jeongshin">
+                    <img src="https://avatars.githubusercontent.com/u/64301935?v=4" width="100;" alt="jeongshin"/>
+                    <br />
+                    <sub><b>Huckleberry</b></sub>
+                </a>
+            </td>
+            <td align="center">
+                <a href="https://github.com/tuanngocptn">
+                    <img src="https://avatars.githubusercontent.com/u/22292704?v=4" width="100;" alt="tuanngocptn"/>
+                    <br />
+                    <sub><b>Nick - Ngoc Pham</b></sub>
                 </a>
             </td>
 		</tr>

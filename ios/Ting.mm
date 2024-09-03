@@ -1,6 +1,11 @@
 #import "Ting.h"
 
-#import <ting-Swift.h>
+#if __has_include("ting-Swift.h")
+    #import <ting-Swift.h>
+#else
+    // When using use_frameworks! :linkage => :static in Podfile
+    #import <Ting/Ting-Swift.h>
+#endif
 
 @implementation Ting
 

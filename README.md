@@ -220,6 +220,13 @@ Thanks go to these wonderful people:
                 </a>
             </td>
             <td align="center">
+                <a href="https://github.com/jeongshin">
+                    <img src="https://avatars.githubusercontent.com/u/64301935?v=4" width="100;" alt="jeongshin"/>
+                    <br />
+                    <sub><b>Huckleberry</b></sub>
+                </a>
+            </td>
+            <td align="center">
                 <a href="https://github.com/tuanngocptn">
                     <img src="https://avatars.githubusercontent.com/u/22292704?v=4" width="100;" alt="tuanngocptn"/>
                     <br />

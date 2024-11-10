@@ -199,17 +199,17 @@ Thanks go to these wonderful people:
 	<tbody>
 		<tr>
             <td align="center">
-                <a href="https://github.com/4cc3ssX">
-                    <img src="https://avatars.githubusercontent.com/u/57473799?v=4" width="100;" alt="4cc3ssX"/>
-                    <br />
-                    <sub><b>Ryam</b></sub>
-                </a>
-            </td>
-            <td align="center">
                 <a href="https://github.com/baronha">
                     <img src="https://avatars.githubusercontent.com/u/23580920?v=4" width="100;" alt="baronha"/>
                     <br />
                     <sub><b>Bảo Hà.</b></sub>
+                </a>
+            </td>
+            <td align="center">
+                <a href="https://github.com/4cc3ssX">
+                    <img src="https://avatars.githubusercontent.com/u/57473799?v=4" width="100;" alt="4cc3ssX"/>
+                    <br />
+                    <sub><b>Ryam</b></sub>
                 </a>
             </td>
             <td align="center">

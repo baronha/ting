@@ -162,7 +162,7 @@ class TingModule internal constructor(context: ReactApplicationContext) : TingSp
   }
 
   private fun getDuration(options: ReadableMap): Int {
-    return if (options.hasKey("duration")) (options.getInt("duration") * 1000) else 3000
+    return if (options.hasKey("duration")) (options.getDouble("duration") * 1000).toInt() else 3000
   }
 
   private fun getContainerView(

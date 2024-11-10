@@ -88,7 +88,7 @@ dependencies {
   //noinspection GradleDynamicVersion
   implementation "com.facebook.react:react-native:+"
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-  implementation 'com.github.getActivity:EasyWindow:10.0'
+  implementation 'com.github.getActivity:EasyWindow:10.62'
 }
 
 if (isNewArchitectureEnabled()) {
